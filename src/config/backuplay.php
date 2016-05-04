@@ -2,22 +2,37 @@
 
 return [
     /*
-     * The list of folders you want to backup
-     */
+    |--------------------------------------------------------------------------
+    | Folder List
+    |--------------------------------------------------------------------------
+    |
+    | The list of folders that should be backuped.
+    |
+    */
     'folders' => [
 
     ],
 
     /*
-     * The list of files you want to backup
-     */
+    |--------------------------------------------------------------------------
+    | File List
+    |--------------------------------------------------------------------------
+    |
+    | The list of files that should be backuped.
+    |
+    */
     'files' => [
 
     ],
 
     /*
-     * The name of the storage where backups should be stored.
-     * false to disable storing
-     */
-    'storage' => 'local',
+    |--------------------------------------------------------------------------
+    | Disk name
+    |--------------------------------------------------------------------------
+    |
+    | The name of the configured disk to store the backups.
+    | Use `false` to disable storing backups.
+    |
+    */
+    'disk' => 'local',
 ];
