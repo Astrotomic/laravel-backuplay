@@ -22,12 +22,11 @@ class CreateBackup extends Command
         $this->info('start backuplay');
 
         $this->folders = $this->getFolders();
-        $this->comment('backup folders: ' . $this->folders->implode(' '));
+        $this->comment('backup folders: '.$this->folders->implode(' '));
         $this->files = $this->getFiles();
-        $this->comment('backup files: ' . $this->files->implode(' '));
+        $this->comment('backup files: '.$this->files->implode(' '));
 
-        if($this->folders->count() > 0 || $this->files->count() > 0) {
-
+        if ($this->folders->count() > 0 || $this->files->count() > 0) {
         } else {
             $this->error('no valid folders or files to backup');
         }
@@ -38,13 +37,13 @@ class CreateBackup extends Command
     protected function getFolders()
     {
         return collect($this->config['folders'])
-            ->filter(function($folder) {
+            ->filter(function ($folder) {
                 return $this->isExisting($folder);
             })
-            ->filter(function($folder) {
+            ->filter(function ($folder) {
                 return $this->isDir($folder);
             })
-            ->filter(function($folder) {
+            ->filter(function ($folder) {
                 return $this->isReadable($folder);
             })
             ->sort();
@@ -53,13 +52,13 @@ class CreateBackup extends Command
     protected function getFiles()
     {
         return collect($this->config['files'])
-            ->filter(function($file) {
+            ->filter(function ($file) {
                 return $this->isExisting($file);
             })
-            ->filter(function($file) {
+            ->filter(function ($file) {
                 return $this->isFile($file);
             })
-            ->filter(function($file) {
+            ->filter(function ($file) {
                 return $this->isReadable($file);
             })
             ->sort();
