@@ -5,9 +5,7 @@ namespace Gummibeer\Backuplay\Exceptions;
 use Exception;
 
 /**
- * Class IsNoFileException
- * @package Gummibeer\Backuplay
- * @subpackage Gummibeer\Backuplay\Exceptions
+ * Class IsNoFileException.
  */
 class IsNoFileException extends Exception
 {
