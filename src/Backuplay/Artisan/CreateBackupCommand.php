@@ -62,7 +62,7 @@ class CreateBackup extends Command
         if ($this->folders->count() > 0 || $this->files->count() > 0) {
             $tempDir = $this->getTempDir();
             $tempName = md5(uniqid(date('U'))).'.'.$this->config['extension'];
-            $tempPath = $tempDir . DIRECTORY_SEPARATOR . $tempName;
+            $tempPath = $tempDir.DIRECTORY_SEPARATOR.$tempName;
             $zippy = Zippy::load();
             $archive = $zippy->create($tempPath);
 
@@ -134,14 +134,15 @@ class CreateBackup extends Command
     {
         $dir = $this->config['temp_path']['dir'];
         $chmod = $this->config['temp_path']['chmod'];
-        if(!$this->isDir($dir, false)) {
+        if (! $this->isDir($dir, false)) {
             $success = mkdir($dir, $chmod);
-            if($success) {
+            if ($success) {
                 $this->info('temporary directory created');
             } else {
                 throw new EntityIsNoDirectoryException($dir);
             }
         }
+
         return rtrim($dir, DIRECTORY_SEPARATOR);
     }
 
@@ -153,7 +154,7 @@ class CreateBackup extends Command
     protected function storeArchive($tempPath)
     {
         $disk = $this->config['disk'];
-        if($disk !== false) {
+        if ($disk !== false) {
             $this->comment('store archive on disk: '.$disk);
             $filename = $this->getStorageFileName();
             $filePath = implode(DIRECTORY_SEPARATOR, array_filter([
@@ -161,7 +162,7 @@ class CreateBackup extends Command
                 $filename,
             ]));
             Storage::put($filePath, file_get_contents($tempPath));
-            if(Storage::has($filePath)) {
+            if (Storage::has($filePath)) {
                 $this->info('archive stored');
             } else {
                 throw new FileDoesNotExistException($filePath);
@@ -183,10 +184,11 @@ class CreateBackup extends Command
 
         $filename = str_replace('{unique}', $unique, $filename);
         $filename = str_replace('{hash}', $hash, $filename);
-        $filename = preg_replace_callback('/\{date:([^\}]*)\}/', function($hit) {
+        $filename = preg_replace_callback('/\{date:([^\}]*)\}/', function ($hit) {
             return date($hit[1]);
         }, $filename);
         $filename .= '.'.$this->config['extension'];
+
         return strtolower($filename);
     }
 }
