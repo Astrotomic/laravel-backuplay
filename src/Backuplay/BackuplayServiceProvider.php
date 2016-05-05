@@ -5,6 +5,10 @@ namespace Gummibeer\Backuplay;
 use Gummibeer\Backuplay\Artisan\CreateBackup;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class BackuplayServiceProvider
+ * @package Gummibeer\Backuplay
+ */
 class BackuplayServiceProvider extends ServiceProvider
 {
     public function register()
@@ -28,7 +32,7 @@ class BackuplayServiceProvider extends ServiceProvider
 
     protected function artisan()
     {
-        $this->app->singleton('backuplay.artisan.backup-create', function ($app) {
+        $this->app->singleton('backuplay.artisan.backup-create', function () {
             return new CreateBackup();
         });
 
