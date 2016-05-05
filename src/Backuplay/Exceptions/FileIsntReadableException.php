@@ -5,9 +5,7 @@ namespace Gummibeer\Backuplay\Exceptions;
 use Exception;
 
 /**
- * Class FileIsntReadableException
- * @package Gummibeer\Backuplay
- * @subpackage Gummibeer\Backuplay\Exceptions
+ * Class FileIsntReadableException.
  */
 class FileIsntReadableException extends Exception
 {

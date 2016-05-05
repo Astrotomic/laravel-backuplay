@@ -5,9 +5,7 @@ namespace Gummibeer\Backuplay\Exceptions;
 use Exception;
 
 /**
- * Class IsNoDirectoryException
- * @package Gummibeer\Backuplay
- * @subpackage Gummibeer\Backuplay\Exceptions
+ * Class IsNoDirectoryException.
  */
 class IsNoDirectoryException extends Exception
 {

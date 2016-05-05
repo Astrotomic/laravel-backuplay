@@ -5,9 +5,7 @@ namespace Gummibeer\Backuplay\Artisan;
 use Illuminate\Support\Collection;
 
 /**
- * Class CreateBackup
- * @package Gummibeer\Backuplay
- * @subpackage Gummibeer\Backuplay\Artisan
+ * Class CreateBackup.
  */
 class CreateBackup extends Command
 {

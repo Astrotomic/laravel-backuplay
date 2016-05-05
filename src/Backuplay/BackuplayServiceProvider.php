@@ -6,8 +6,7 @@ use Gummibeer\Backuplay\Artisan\CreateBackup;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class BackuplayServiceProvider
- * @package Gummibeer\Backuplay
+ * Class BackuplayServiceProvider.
  */
 class BackuplayServiceProvider extends ServiceProvider
 {

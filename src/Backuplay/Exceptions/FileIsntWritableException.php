@@ -5,9 +5,7 @@ namespace Gummibeer\Backuplay\Exceptions;
 use Exception;
 
 /**
- * Class FileIsntWritableException
- * @package Gummibeer\Backuplay
- * @subpackage Gummibeer\Backuplay\Exceptions
+ * Class FileIsntWritableException.
  */
 class FileIsntWritableException extends Exception
 {

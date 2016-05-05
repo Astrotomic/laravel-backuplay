@@ -10,9 +10,7 @@ use Gummibeer\Backuplay\Exceptions\IsNoFileException;
 use Illuminate\Console\Command as IlluminateCommand;
 
 /**
- * Class Command
- * @package Gummibeer\Backuplay
- * @subpackage Gummibeer\Backuplay\Artisan
+ * Class Command.
  */
 class Command extends IlluminateCommand
 {
@@ -110,6 +108,7 @@ class Command extends IlluminateCommand
             return true;
         } else {
             self::handleException(new IsNoDirectoryException($dir), $strict);
+
             return false;
         }
     }
@@ -126,6 +125,7 @@ class Command extends IlluminateCommand
             return true;
         } else {
             self::handleException(new IsNoFileException($file), $strict);
+
             return false;
         }
     }
@@ -142,6 +142,7 @@ class Command extends IlluminateCommand
             return true;
         } else {
             self::handleException(new FileIsntReadableException($file), $strict);
+
             return false;
         }
     }
@@ -158,6 +159,7 @@ class Command extends IlluminateCommand
             return true;
         } else {
             self::handleException(new FileIsntWritableException($file), $strict);
+
             return false;
         }
     }
