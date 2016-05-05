@@ -2,7 +2,11 @@
 
 namespace Gummibeer\Backuplay\Artisan;
 
+use Alchemy\Zippy\Zippy;
+use Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException;
+use Gummibeer\Backuplay\Exceptions\FileDoesNotExistException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class CreateBackup.
@@ -23,11 +27,11 @@ class CreateBackup extends Command
      */
     protected $config;
     /**
-     * @var Collection
+     * @var \Illuminate\Support\Collection
      */
     protected $folders;
     /**
-     * @var Collection
+     * @var \Illuminate\Support\Collection
      */
     protected $files;
 
@@ -40,6 +44,12 @@ class CreateBackup extends Command
         $this->config = config('backuplay');
     }
 
+    /**
+     * @return void
+     * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException
+     * @throws \Gummibeer\Backuplay\Exceptions\FileDoesNotExistException
+     * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoFileException
+     */
     public function fire()
     {
         $this->info('start backuplay');
@@ -50,19 +60,42 @@ class CreateBackup extends Command
         $this->comment('backup files: '.$this->files->implode(' '));
 
         if ($this->folders->count() > 0 || $this->files->count() > 0) {
+            $tempDir = $this->getTempDir();
+            $tempName = md5(uniqid(date('U'))).'.'.$this->config['extension'];
+            $tempPath = $tempDir . DIRECTORY_SEPARATOR . $tempName;
+            $zippy = Zippy::load();
+            $archive = $zippy->create($tempPath);
+
+            if ($this->folders->count() > 0) {
+                $this->comment('add folders to archive');
+                foreach ($this->folders as $folder) {
+                    $archive->addMembers($folder, true);
+                }
+            }
+
+            if ($this->files->count() > 0) {
+                $this->comment('add files to archive');
+                foreach ($this->files as $file) {
+                    $archive->addMembers($file, false);
+                }
+            }
+
+            $this->isExisting($tempPath, true);
+            $this->isFile($tempPath, true);
+            $this->info('created archive');
         } else {
-            $this->error('no valid folders or files to backup');
+            $this->warn('no valid folders or files to backup');
         }
 
         $this->info('end backuplay');
     }
 
     /**
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     protected function getFolders()
     {
-        return collect($this->config['folders'])
+        return (new Collection($this->config['folders']))
             ->filter(function ($folder) {
                 return $this->isExisting($folder);
             })
@@ -76,11 +109,11 @@ class CreateBackup extends Command
     }
 
     /**
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     protected function getFiles()
     {
-        return collect($this->config['files'])
+        return (new Collection($this->config['files']))
             ->filter(function ($file) {
                 return $this->isExisting($file);
             })
@@ -91,5 +124,69 @@ class CreateBackup extends Command
                 return $this->isReadable($file);
             })
             ->sort();
+    }
+
+    /**
+     * @return string
+     * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException
+     */
+    protected function getTempDir()
+    {
+        $dir = $this->config['temp_path']['dir'];
+        $chmod = $this->config['temp_path']['chmod'];
+        if(!$this->isDir($dir, false)) {
+            $success = mkdir($dir, $chmod);
+            if($success) {
+                $this->info('temporary directory created');
+            } else {
+                throw new EntityIsNoDirectoryException($dir);
+            }
+        }
+        return rtrim($dir, DIRECTORY_SEPARATOR);
+    }
+
+    /**
+     * @param string $tempPath
+     * @return void
+     * @throws \Gummibeer\Backuplay\Exceptions\FileDoesNotExistException
+     */
+    protected function storeArchive($tempPath)
+    {
+        $disk = $this->config['disk'];
+        if($disk !== false) {
+            $this->comment('store archive on disk: '.$disk);
+            $filename = $this->getStorageFileName();
+            $filePath = implode(DIRECTORY_SEPARATOR, array_filter([
+                $this->config['storage_path'],
+                $filename,
+            ]));
+            Storage::put($filePath, file_get_contents($tempPath));
+            if(Storage::has($filePath)) {
+                $this->info('archive stored');
+            } else {
+                throw new FileDoesNotExistException($filePath);
+            }
+        } else {
+            $this->warn('storage is disabled');
+        }
+        unlink($tempPath);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getStorageFileName()
+    {
+        $filename = $this->config['storage_filename'];
+        $unique = uniqid();
+        $hash = md5($this->folders->implode(' ').' '.$this->files->implode(' '));
+
+        $filename = str_replace('{unique}', $unique, $filename);
+        $filename = str_replace('{hash}', $hash, $filename);
+        $filename = preg_replace_callback('/\{date:([^\}]*)\}/', function($hit) {
+            return date($hit[1]);
+        }, $filename);
+        $filename .= '.'.$this->config['extension'];
+        return strtolower($filename);
     }
 }

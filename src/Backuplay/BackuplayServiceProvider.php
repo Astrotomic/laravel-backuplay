@@ -10,11 +10,21 @@ use Illuminate\Support\ServiceProvider;
  */
 class BackuplayServiceProvider extends ServiceProvider
 {
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->artisan();
     }
 
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
     public function boot()
     {
         $this->config();

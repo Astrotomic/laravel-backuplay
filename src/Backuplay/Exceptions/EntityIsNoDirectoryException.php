@@ -5,18 +5,18 @@ namespace Gummibeer\Backuplay\Exceptions;
 use Exception;
 
 /**
- * Class IsNoFileException.
+ * Class IsNoDirectoryException.
  */
-class IsNoFileException extends Exception
+class EntityIsNoDirectoryException extends Exception
 {
     /**
-     * IsNoFileException constructor.
+     * IsNoDirectoryException constructor.
      * @param string $message
      * @param int $code
      * @param Exception|null $previous
      */
     public function __construct($message, $code = 0, Exception $previous = null)
     {
-        $this->message = $message.' isn\'t a file';
+        $this->message = $message.' isn\'t a directory';
     }
 }

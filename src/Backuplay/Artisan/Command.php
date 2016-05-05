@@ -5,8 +5,8 @@ namespace Gummibeer\Backuplay\Artisan;
 use Gummibeer\Backuplay\Exceptions\FileDoesNotExistException;
 use Gummibeer\Backuplay\Exceptions\FileIsntReadableException;
 use Gummibeer\Backuplay\Exceptions\FileIsntWritableException;
-use Gummibeer\Backuplay\Exceptions\IsNoDirectoryException;
-use Gummibeer\Backuplay\Exceptions\IsNoFileException;
+use Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException;
+use Gummibeer\Backuplay\Exceptions\EntityIsNoFileException;
 use Illuminate\Console\Command as IlluminateCommand;
 
 /**
@@ -100,14 +100,14 @@ class Command extends IlluminateCommand
      * @param string $dir
      * @param bool|null $strict
      * @return bool
-     * @throws \Gummibeer\Backuplay\Exceptions\IsNoDirectoryException
+     * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException
      */
     protected function isDir($dir, $strict = null)
     {
         if (is_dir($dir)) {
             return true;
         } else {
-            self::handleException(new IsNoDirectoryException($dir), $strict);
+            self::handleException(new EntityIsNoDirectoryException($dir), $strict);
 
             return false;
         }
@@ -117,14 +117,14 @@ class Command extends IlluminateCommand
      * @param string $file
      * @param bool|null $strict
      * @return bool
-     * @throws \Gummibeer\Backuplay\Exceptions\IsNoFileException
+     * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoFileException
      */
     protected function isFile($file, $strict = null)
     {
         if (is_file($file)) {
             return true;
         } else {
-            self::handleException(new IsNoFileException($file), $strict);
+            self::handleException(new EntityIsNoFileException($file), $strict);
 
             return false;
         }
