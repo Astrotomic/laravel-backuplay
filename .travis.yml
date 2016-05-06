@@ -27,6 +27,8 @@ addons:
     packages:
     - zip
     - unzip
+    - php5-zip
+    - php7.0-zip
 
 ## Install Dependencies
 install:
