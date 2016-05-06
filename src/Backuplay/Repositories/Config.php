@@ -84,7 +84,7 @@ class Config extends Repository implements ConfigContract
         $dir = $this->get('temp_path.dir');
         $chmod = $this->get('temp_path.chmod');
         if (! (File::isDir($dir, false) === true ? true : false)) {
-            $success = mkdir($dir, $chmod);
+            $success = mkdir($dir, $chmod, true);
             if (! $success) {
                 throw new EntityIsNoDirectoryException($dir);
             }
