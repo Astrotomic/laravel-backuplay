@@ -3,7 +3,6 @@
 use Gummibeer\Backuplay\Parsers\Filename;
 use Gummibeer\Backuplay\Artisan\CreateBackup;
 use Gummibeer\Backuplay\Contracts\ConfigContract;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class CreateBackupCommandTest extends TestCase
