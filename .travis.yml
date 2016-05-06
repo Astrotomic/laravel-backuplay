@@ -1,7 +1,7 @@
 language: php
 
-## Run on container environment
-sudo: false
+## Run on sudo environment
+sudo: required
 
 ## Cache composer bits
 cache:
@@ -10,6 +10,7 @@ cache:
 
 ## List all PHP versions to test with
 php:
+  - 5.4
   - 5.5
   - 5.6
   - 7.0
@@ -22,13 +23,8 @@ env:
   - LARAVEL_VERSION="5.2.*"
 
 # Install system packages
-addons:
-  apt:
-    packages:
-    - zip
-    - unzip
-    - php5-zip
-    - php7.0-zip
+before_install:
+  - sudo apt-get install zip
 
 ## Install Dependencies
 install:
