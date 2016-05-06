@@ -42,16 +42,11 @@ class CreateBackupCommandTest extends TestCase
         $this->config->set('temp_path.dir', $this->tempPath);
         $this->config->set('folders', [__DIR__]);
         $this->config->set('files', [__FILE__]);
-        $this->config->set('extension', 'zip');
+        $this->config->set('extension', 'ziphp');
         $this->config->set('storage_filename', '{hash}.{date:N}');
     }
 
     /** @test */
-    public function disabled()
-    {
-        $this->assertTrue(true);
-    }
-
     public function createBackupWithoutStorage()
     {
         $this->config->set('disk', false);
@@ -68,6 +63,7 @@ class CreateBackupCommandTest extends TestCase
         $this->assertContains('[INFO] end backuplay', $output);
     }
 
+    /** @test */
     public function createBackupWithStorage()
     {
         $this->config->set('disk', 'testing');

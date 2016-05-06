@@ -21,6 +21,10 @@ env:
   - LARAVEL_VERSION="5.1.*"
   - LARAVEL_VERSION="5.2.*"
 
+## Install needed Extensions
+before_install:
+  - pecl install zip
+
 ## Install Dependencies
 install:
   - composer self-update

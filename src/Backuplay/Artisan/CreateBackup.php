@@ -2,9 +2,9 @@
 
 namespace Gummibeer\Backuplay\Artisan;
 
-use Alchemy\Zippy\Zippy;
 use Gummibeer\Backuplay\Contracts\ConfigContract;
 use Gummibeer\Backuplay\Exceptions\FileDoesNotExistException;
+use Gummibeer\Backuplay\Helpers\Archive;
 use Gummibeer\Backuplay\Helpers\File;
 use Gummibeer\Backuplay\Parsers\Filename;
 use Illuminate\Support\Facades\Storage;
@@ -65,7 +65,7 @@ class CreateBackup extends Command
             $tempName = md5(uniqid(date('U'))).'.'.$this->config->get('extension');
             $tempPath = $tempDir.DIRECTORY_SEPARATOR.$tempName;
             $tempMeta = $this->createMetaFile($tempPath);
-            $zippy = Zippy::load();
+            $zippy = Archive::load();
             $archive = $zippy->create($tempPath, [
                 'backup_info.txt' => $tempMeta,
             ]);
