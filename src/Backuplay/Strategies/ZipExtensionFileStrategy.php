@@ -12,9 +12,9 @@ class ZipExtensionFileStrategy extends AbstractFileStrategy
      */
     protected function getServiceNames()
     {
-        return array(
-            ZipExtensionAdapter::class
-        );
+        return [
+            ZipExtensionAdapter::class,
+        ];
     }
 
     /**

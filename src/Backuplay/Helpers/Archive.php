@@ -1,4 +1,5 @@
 <?php
+
 namespace Gummibeer\Backuplay\Helpers;
 
 use Alchemy\Zippy\Adapter\AdapterContainer;
@@ -12,6 +13,7 @@ class Archive
         $zippy = Zippy::load();
         $adapters = AdapterContainer::load();
         $zippy->addStrategy(new ZipExtensionFileStrategy($adapters));
+
         return $zippy;
     }
 }
