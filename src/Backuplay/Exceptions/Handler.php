@@ -1,4 +1,5 @@
 <?php
+
 namespace Gummibeer\Backuplay\Exceptions;
 
 use Gummibeer\Backuplay\Contracts\ConfigContract;

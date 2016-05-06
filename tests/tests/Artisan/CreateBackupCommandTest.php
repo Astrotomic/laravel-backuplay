@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Gummibeer\Backuplay\Artisan\CreateBackup;
 use Gummibeer\Backuplay\Contracts\ConfigContract;
 

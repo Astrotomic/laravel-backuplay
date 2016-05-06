@@ -1,12 +1,12 @@
 <?php
+
 namespace Gummibeer\Backuplay\Parsers;
 
 use Gummibeer\Backuplay\Contracts\ConfigContract;
 use Gummibeer\Backuplay\Contracts\ParserContract;
 
 /**
- * Class FilenameParser
- * @package Gummibeer\Backuplay\Parsers
+ * Class FilenameParser.
  */
 class Filename implements ParserContract
 {
@@ -35,18 +35,18 @@ class Filename implements ParserContract
      */
     public function parse($string = null)
     {
-        if(is_null($string)) {
+        if (is_null($string)) {
             $string = $this->config->get('storage_filename');
         }
         $filename = $string;
         $unique = uniqid();
-        $hash = md5(implode(' ', $this->config->getFolders()) . ' ' . implode(' ', $this->config->getFiles()));
+        $hash = md5(implode(' ', $this->config->getFolders()).' '.implode(' ', $this->config->getFiles()));
 
         $filename = str_replace(['{unique}', '{hash}'], [$unique, $hash], $filename);
         $filename = preg_replace_callback('/\{date:([^\}]*)\}/', function ($hit) {
             return date($hit[1]);
         }, $filename);
-        $filename .= '.' . $this->config->get('extension');
+        $filename .= '.'.$this->config->get('extension');
 
         return strtolower($filename);
     }

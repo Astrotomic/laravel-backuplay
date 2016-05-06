@@ -1,4 +1,5 @@
 <?php
+
 namespace Gummibeer\Backuplay\Repositories;
 
 use Gummibeer\Backuplay\Contracts\ConfigContract;
@@ -8,8 +9,7 @@ use Illuminate\Config\Repository;
 use Illuminate\Support\Collection;
 
 /**
- * Class ConfigRepo
- * @package Gummibeer\Backuplay\Repositories
+ * Class ConfigRepo.
  */
 class Config extends Repository implements ConfigContract
 {
@@ -85,7 +85,7 @@ class Config extends Repository implements ConfigContract
         $chmod = $this->get('temp_path.chmod');
         if (! (File::isDir($dir, false) === true ? true : false)) {
             $success = mkdir($dir, $chmod);
-            if (!$success) {
+            if (! $success) {
                 throw new EntityIsNoDirectoryException($dir);
             }
         }
