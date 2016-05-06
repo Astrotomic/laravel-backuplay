@@ -7,8 +7,7 @@ use Alchemy\Zippy\Zippy;
 use Gummibeer\Backuplay\Strategies\ZipExtensionFileStrategy;
 
 /**
- * Class Archive
- * @package Gummibeer\Backuplay\Helpers
+ * Class Archive.
  */
 class Archive
 {
