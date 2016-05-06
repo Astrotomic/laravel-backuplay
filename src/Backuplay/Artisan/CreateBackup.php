@@ -100,6 +100,10 @@ class CreateBackup extends Command
         $this->info('end backuplay');
     }
 
+    /**
+     * @param string $tempPath
+     * @return string
+     */
     protected function createMetaFile($tempPath)
     {
         $tempPath = str_replace($this->config->get('extension'), 'txt', $tempPath);
@@ -108,6 +112,9 @@ class CreateBackup extends Command
         return $tempPath;
     }
 
+    /**
+     * @return string
+     */
     protected function getMetaContent()
     {
         $content = [];

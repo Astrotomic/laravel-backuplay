@@ -6,8 +6,15 @@ use Alchemy\Zippy\Adapter\AdapterContainer;
 use Alchemy\Zippy\Zippy;
 use Gummibeer\Backuplay\Strategies\ZipExtensionFileStrategy;
 
+/**
+ * Class Archive
+ * @package Gummibeer\Backuplay\Helpers
+ */
 class Archive
 {
+    /**
+     * @return \Alchemy\Zippy\Zippy
+     */
     public static function load()
     {
         $zippy = Zippy::load();
