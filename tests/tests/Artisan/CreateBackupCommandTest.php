@@ -78,4 +78,22 @@ class CreateBackupCommandTest extends TestCase
         $this->assertNotContains('[ERROR]', $output);
         $this->assertContains('[INFO] end backuplay', $output);
     }
+
+    /** @test */
+    public function createBackupWithoutEntries()
+    {
+        $this->config->set('folders', []);
+        $this->config->set('files', []);
+        $command = new CreateBackup();
+        $command->setLaravel($this->app);
+        $output = new BufferedOutput();
+        $this->runCommand($command, [], $output);
+        $output = $output->fetch();
+
+        $storageFile = $this->storagePath.DIRECTORY_SEPARATOR.(new Filename());
+        $this->assertFalse(file_exists($storageFile));
+        $this->assertNotContains('[ERROR]', $output);
+        $this->assertContains('[WARN] no valid folders or files to backup', $output);
+        $this->assertContains('[INFO] end backuplay', $output);
+    }
 }
