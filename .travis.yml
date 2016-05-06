@@ -39,4 +39,4 @@ script:
 
 ## Send Build Notifications to Slack
 notifications:
-  slack: bambusfarm:7LQFrbHQqjl98ZvbD9nV8zHN
+  slack: gummibeer:7LQFrbHQqjl98ZvbD9nV8zHN
