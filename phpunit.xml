@@ -10,8 +10,8 @@
          stopOnFailure="false"
          syntaxCheck="false">
     <testsuites>
-        <testsuite name="Backuplay_Integration">
-            <directory suffix=".php">./tests/integration</directory>
+        <testsuite name="Backuplay">
+            <directory suffix=".php">./tests/tests</directory>
         </testsuite>
     </testsuites>
     <filter>

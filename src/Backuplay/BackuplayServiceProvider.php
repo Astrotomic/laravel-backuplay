@@ -3,6 +3,8 @@
 namespace Gummibeer\Backuplay;
 
 use Gummibeer\Backuplay\Artisan\CreateBackup;
+use Gummibeer\Backuplay\Contracts\ConfigContract;
+use Gummibeer\Backuplay\Repositories\Config;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -17,7 +19,8 @@ class BackuplayServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->artisan();
+        $this->registerConfig();
+        $this->registerCommands();
     }
 
     /**
@@ -27,10 +30,10 @@ class BackuplayServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->config();
+        $this->publishConfig();
     }
 
-    protected function config()
+    protected function publishConfig()
     {
         $this->publishes([
             __DIR__.'/../config/backuplay.php' => config_path('backuplay.php'),
@@ -39,7 +42,7 @@ class BackuplayServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/backuplay.php', 'backuplay');
     }
 
-    protected function artisan()
+    protected function registerCommands()
     {
         $this->app->singleton('backuplay.artisan.backup-create', function () {
             return new CreateBackup();
@@ -48,5 +51,12 @@ class BackuplayServiceProvider extends ServiceProvider
         $this->commands([
             'backuplay.artisan.backup-create',
         ]);
+    }
+
+    protected function registerConfig()
+    {
+        $this->app->singleton(ConfigContract::class, function () {
+            return new Config();
+        });
     }
 }
