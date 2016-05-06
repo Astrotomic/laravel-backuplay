@@ -9,6 +9,7 @@ class CreateBackupCommandTest extends TestCase
 {
     protected $storagePath;
     protected $tempPath;
+    protected $config;
 
     public function setUp()
     {
@@ -36,25 +37,44 @@ class CreateBackupCommandTest extends TestCase
             'root' => $this->storagePath,
         ]);
 
-        $config = app(ConfigContract::class);
-        $config->set('disk', 'testing');
-        $config->set('temp_path.dir', $this->tempPath);
-        $config->set('folders', [__DIR__]);
-        $config->set('files', [__FILE__]);
-        $config->set('extension', 'zip');
-        $config->set('storage_filename', '{hash}.{date:N}');
+        $this->config = app(ConfigContract::class);
+        $this->config->set('disk', 'testing');
+        $this->config->set('temp_path.dir', $this->tempPath);
+        $this->config->set('folders', [__DIR__]);
+        $this->config->set('files', [__FILE__]);
+        $this->config->set('extension', 'zip');
+        $this->config->set('storage_filename', '{hash}.{date:N}');
     }
 
     /** @test */
-    public function createBackup()
+    public function createBackupWithoutStorage()
     {
+        $this->config->set('disk', false);
         $command = new CreateBackup();
         $command->setLaravel($this->app);
         $output = new BufferedOutput();
         $this->runCommand($command, [], $output);
         $output = $output->fetch();
 
-        $this->assertTrue(file_exists($this->storagePath.DIRECTORY_SEPARATOR.(new Filename())));
+        $storageFile = $this->storagePath.DIRECTORY_SEPARATOR.(new Filename());
+        $this->assertFalse(file_exists($storageFile));
+        $this->assertNotContains('[ERROR]', $output);
+        $this->assertContains('[WARN] storage is disabled', $output);
+        $this->assertContains('[INFO] end backuplay', $output);
+    }
+
+    /** @test */
+    public function createBackupWithStorage()
+    {
+        $this->config->set('disk', 'testing');
+        $command = new CreateBackup();
+        $command->setLaravel($this->app);
+        $output = new BufferedOutput();
+        $this->runCommand($command, [], $output);
+        $output = $output->fetch();
+
+        $storageFile = $this->storagePath.DIRECTORY_SEPARATOR.(new Filename());
+        $this->assertTrue(file_exists($storageFile));
         $this->assertNotContains('[ERROR]', $output);
         $this->assertContains('[INFO] end backuplay', $output);
     }

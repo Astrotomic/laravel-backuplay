@@ -21,6 +21,10 @@ env:
   - LARAVEL_VERSION="5.1.*"
   - LARAVEL_VERSION="5.2.*"
 
+# Install system packages
+before_install:
+  - sudo apt-get install zip unzip
+
 ## Install Dependencies
 install:
   - composer self-update
