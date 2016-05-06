@@ -32,7 +32,11 @@ class Command extends IlluminateCommand
     public function warn($string, $verbosity = null)
     {
         $string = '[WARN] '.$string;
-        parent::warn($string, $verbosity);
+        if (is_callable('parent::warn')) {
+            parent::warn($string, $verbosity);
+        } else {
+            parent::info($string, $verbosity);
+        }
     }
 
     /**
