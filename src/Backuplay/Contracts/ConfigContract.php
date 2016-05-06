@@ -1,4 +1,5 @@
 <?php
+
 namespace Gummibeer\Backuplay\Contracts;
 
 interface ConfigContract

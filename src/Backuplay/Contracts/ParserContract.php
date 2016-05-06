@@ -1,10 +1,9 @@
 <?php
+
 namespace Gummibeer\Backuplay\Contracts;
 
-
 /**
- * Interface ParserContract
- * @package Gummibeer\Backuplay\Contracts
+ * Interface ParserContract.
  */
 interface ParserContract
 {

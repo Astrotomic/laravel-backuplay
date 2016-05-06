@@ -71,7 +71,7 @@ class CreateBackup extends Command
             ]);
             try {
                 unlink($tempMeta);
-            } catch(\ErrorException $e) {
+            } catch (\ErrorException $e) {
                 $this->error('temp meta file isn\'t deletable');
             }
 
@@ -104,6 +104,7 @@ class CreateBackup extends Command
     {
         $tempPath = str_replace($this->config->get('extension'), 'txt', $tempPath);
         file_put_contents($tempPath, $this->getMetaContent());
+
         return $tempPath;
     }
 
@@ -123,6 +124,7 @@ class CreateBackup extends Command
                 $content[] = '* '.$file;
             }
         }
+
         return implode(PHP_EOL, $content);
     }
 
@@ -152,7 +154,7 @@ class CreateBackup extends Command
         }
         try {
             unlink($tempPath);
-        } catch(\ErrorException $e) {
+        } catch (\ErrorException $e) {
             $this->error('temp archive file isn\'t deletable');
         }
     }

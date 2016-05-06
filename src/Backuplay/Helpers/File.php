@@ -1,4 +1,5 @@
 <?php
+
 namespace Gummibeer\Backuplay\Helpers;
 
 use Gummibeer\Backuplay\Exceptions\FileDoesNotExistException;
@@ -10,7 +11,6 @@ use Gummibeer\Backuplay\Exceptions\Handler as ExceptionHandler;
 
 class File
 {
-
     /**
      * @param string $file
      * @param bool|null $strict
