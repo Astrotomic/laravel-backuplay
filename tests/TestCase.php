@@ -30,7 +30,7 @@ abstract class TestCase extends OrchestraTestCase
         return 'UTC';
     }
 
-    protected function runCommand(Command $command, array $input = [], OutputInterface $output)
+    protected function runCommand(Command $command, array $input, OutputInterface $output)
     {
         return $command->run(new ArrayInput($input), $output);
     }
