@@ -1,6 +1,10 @@
 <?php
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\OutputInterface;
+use Gummibeer\Backuplay\BackuplayServiceProvider;
+use Illuminate\Console\Command;
 
 abstract class TestCase extends OrchestraTestCase
 {
@@ -11,7 +15,7 @@ abstract class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Gummibeer\Backuplay\BackuplayServiceProvider::class,
+            BackuplayServiceProvider::class,
         ];
     }
 
@@ -24,5 +28,10 @@ abstract class TestCase extends OrchestraTestCase
     protected function getApplicationTimezone($app)
     {
         return 'UTC';
+    }
+
+    protected function runCommand(Command $command, array $input = [], OutputInterface $output)
+    {
+        return $command->run(new ArrayInput($input), $output);
     }
 }

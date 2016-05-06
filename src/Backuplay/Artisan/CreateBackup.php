@@ -72,7 +72,7 @@ class CreateBackup extends Command
             try {
                 unlink($tempMeta);
             } catch (\ErrorException $e) {
-                $this->error('temp meta file isn\'t deletable');
+                $this->warn('temp meta file isn\'t deletable');
             }
 
             if (count($this->folders) > 0) {
@@ -144,7 +144,7 @@ class CreateBackup extends Command
                 $filename,
             ]));
             Storage::disk($disk)->put($filePath, file_get_contents($tempPath));
-            if (Storage::disk($disk)->has($filePath)) {
+            if (Storage::disk($disk)->exists($filePath)) {
                 $this->info('archive stored');
             } else {
                 throw new FileDoesNotExistException($filePath);
@@ -155,7 +155,7 @@ class CreateBackup extends Command
         try {
             unlink($tempPath);
         } catch (\ErrorException $e) {
-            $this->error('temp archive file isn\'t deletable');
+            $this->warn('temp archive file isn\'t deletable');
         }
     }
 }

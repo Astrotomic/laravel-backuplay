@@ -1,15 +1,21 @@
 <?php
 
+use Gummibeer\Backuplay\Parsers\Filename;
 use Gummibeer\Backuplay\Artisan\CreateBackup;
 use Gummibeer\Backuplay\Contracts\ConfigContract;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class CreateBackupCommandTest extends TestCase
 {
+    protected $storagePath;
+    protected $tempPath;
+
     public function setUp()
     {
         parent::setUp();
 
-        $storagePath = realpath(implode(DIRECTORY_SEPARATOR, [
+        $this->storagePath = realpath(implode(DIRECTORY_SEPARATOR, [
             __DIR__,
             '..',
             '..',
@@ -17,7 +23,7 @@ class CreateBackupCommandTest extends TestCase
             'testing',
         ]));
 
-        $tempPath = realpath(implode(DIRECTORY_SEPARATOR, [
+        $this->tempPath = realpath(implode(DIRECTORY_SEPARATOR, [
             __DIR__,
             '..',
             '..',
@@ -28,12 +34,12 @@ class CreateBackupCommandTest extends TestCase
         $globalConfig = app('config');
         $globalConfig->set('filesystems.disks.testing', [
             'driver' => 'local',
-            'root' => $storagePath,
+            'root' => $this->storagePath,
         ]);
 
         $config = app(ConfigContract::class);
         $config->set('disk', 'testing');
-        $config->set('temp_path.dir', $tempPath);
+        $config->set('temp_path.dir', $this->tempPath);
         $config->set('folders', [__DIR__]);
         $config->set('files', [__FILE__]);
         $config->set('extension', 'zip');
@@ -45,11 +51,12 @@ class CreateBackupCommandTest extends TestCase
     {
         $command = new CreateBackup();
         $command->setLaravel($this->app);
-        $this->runCommand($command);
-    }
+        $output = new BufferedOutput();
+        $this->runCommand($command, [], $output);
+        $output = $output->fetch();
 
-    protected function runCommand($command, $input = [])
-    {
-        return $command->run(new \Symfony\Component\Console\Input\ArrayInput($input), new \Symfony\Component\Console\Output\NullOutput);
+        $this->assertTrue(file_exists($this->storagePath.DIRECTORY_SEPARATOR.(new Filename())));
+        $this->assertNotContains('[ERROR]', $output);
+        $this->assertContains('[INFO] end backuplay', $output);
     }
 }

@@ -31,8 +31,8 @@ class FilenameTest extends TestCase
     public function toStringShouldReturnParsedString()
     {
         $filename = new Filename();
-        $hash = md5(__DIR__.' '.__FILE__);
+        $hash = md5(__DIR__ . ' ' . __FILE__);
         $date = date('N');
-        $this->assertEquals($hash.'.'.$date.'.zip', (string) $filename);
+        $this->assertEquals($hash . '.' . $date . '.zip', (string)$filename);
     }
 }

@@ -38,7 +38,7 @@ class Config extends Repository implements ConfigContract
             ->filter(function ($folder) {
                 return File::isReadable($folder) === true ? true : false;
             })
-            ->sort()
+            ->sort('strnatcmp')
             ->toArray();
     }
 
@@ -57,7 +57,7 @@ class Config extends Repository implements ConfigContract
             ->filter(function ($file) {
                 return File::isReadable($file) === true ? true : false;
             })
-            ->sort()
+            ->sort('strnatcmp')
             ->toArray();
     }
 
