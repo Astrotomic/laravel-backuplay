@@ -69,11 +69,7 @@ class CreateBackup extends Command
             $archive = $zippy->create($tempPath, [
                 'backup_info.txt' => $tempMeta,
             ]);
-            try {
-                unlink($tempMeta);
-            } catch (\ErrorException $e) {
-                $this->warn('temp meta file isn\'t deletable');
-            }
+            $this->unlink($tempMeta);
 
             if (count($this->folders) > 0) {
                 $this->comment('add folders to archive');
@@ -146,23 +142,21 @@ class CreateBackup extends Command
         if ($disk !== false) {
             $this->comment('store archive on disk: '.$disk);
             $filename = new Filename();
-            $filePath = implode(DIRECTORY_SEPARATOR, array_filter([
-                $this->config->get('storage_path'),
-                $filename,
-            ]));
-            Storage::disk($disk)->put($filePath, file_get_contents($tempPath));
-            if (Storage::disk($disk)->exists($filePath)) {
-                $this->info('archive stored');
-            } else {
-                throw new FileDoesNotExistException($filePath);
+            foreach($this->config->get('storage_cycle', []) as $cycle) {
+                $filePath = implode(DIRECTORY_SEPARATOR, array_filter([
+                    $this->config->get('storage_path'),
+                    $filename->cycleParse($cycle),
+                ]));
+                Storage::disk($disk)->put($filePath, file_get_contents($tempPath));
+                if (Storage::disk($disk)->exists($filePath)) {
+                    $this->info('archive stored');
+                } else {
+                    throw new FileDoesNotExistException($filePath);
+                }
             }
         } else {
             $this->warn('storage is disabled');
         }
-        try {
-            unlink($tempPath);
-        } catch (\ErrorException $e) {
-            $this->warn('temp archive file isn\'t deletable');
-        }
+        $this->unlink($tempPath);
     }
 }

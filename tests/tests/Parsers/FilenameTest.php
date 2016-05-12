@@ -33,6 +33,26 @@ class FilenameTest extends TestCase
         $filename = new Filename();
         $hash = md5(__DIR__.' '.__FILE__);
         $date = date('N');
-        $this->assertEquals($hash.'.'.$date.'.zip', (string) $filename);
+        $this->assertEquals('custom'.DIRECTORY_SEPARATOR.$hash.'.'.$date.'.zip', (string) $filename);
+    }
+
+    /** @test */
+    public function cycleParseShouldReturnString()
+    {
+        $cycles = [
+            'dailyW' => 'w',
+            'dailyM' => 'j',
+            'dailyY' => 'z',
+            'weekly' => 'W',
+            'monthly' => 'n',
+            'custom' => 'N',
+        ];
+
+        foreach($cycles as $cycle => $date) {
+            $filename = (new Filename())->cycleParse($cycle);
+            $hash = md5(__DIR__ . ' ' . __FILE__);
+            $date = date($date);
+            $this->assertEquals($cycle . DIRECTORY_SEPARATOR . $hash . '.' . $date . '.zip', (string)$filename);
+        }
     }
 }

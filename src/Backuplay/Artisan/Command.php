@@ -64,4 +64,15 @@ class Command extends IlluminateCommand
         $string = '[DEBUG] '.$string;
         parent::comment($string, $verbosity);
     }
+
+    public function unlink($filepath)
+    {
+        if(file_exists($filepath)) {
+            try {
+                unlink($filepath);
+            } catch (\ErrorException $e) {
+                $this->warn('file isn\'t deletable');
+            }
+        }
+    }
 }

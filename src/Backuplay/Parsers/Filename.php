@@ -51,8 +51,41 @@ class Filename implements ParserContract
         return strtolower($filename);
     }
 
+    /**
+     * @param $cycle
+     * @return string
+     */
+    public function cycleParse($cycle)
+    {
+        switch($cycle) {
+            case "dailyW":
+                $filename = $this->parse('{hash}.{date:w}');
+                break;
+            case "dailyM":
+                $filename = $this->parse('{hash}.{date:j}');
+                break;
+            case "dailyY":
+                $filename = $this->parse('{hash}.{date:z}');
+                break;
+            case "weekly":
+                $filename = $this->parse('{hash}.{date:W}');
+                break;
+            case "monthly":
+                $filename = $this->parse('{hash}.{date:n}');
+                break;
+            default:
+                $filename = $this->parse();
+                $cycle = 'custom';
+                break;
+        }
+        return $cycle.DIRECTORY_SEPARATOR.$filename;
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
-        return $this->parse($this->string);
+        return $this->cycleParse('custom');
     }
 }

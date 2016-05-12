@@ -60,6 +60,28 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Storage cycle
+    |--------------------------------------------------------------------------
+    |
+    | The cycle how to store the backups. This option decides how the backups
+    | are named and where they are stored.
+    | If you want to customize the name use "custom" as value. You can use
+    | multiple cycles.
+    | possible values are:
+    | dailyW: {hash}.{date:w}
+    | dailyM: {hash}.{date:j}
+    | dailyY: {hash}.{date:z}
+    | weekly: {hash}.{date:W}
+    | monthly: {hash}.{date:n}
+    | custom: storage_filename
+    |
+    */
+    'storage_cycle' => [
+        'daily',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Storage filename
     |--------------------------------------------------------------------------
     |

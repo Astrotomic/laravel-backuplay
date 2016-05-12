@@ -43,6 +43,7 @@ class CreateBackupCommandTest extends TestCase
         $this->config->set('folders', [__DIR__]);
         $this->config->set('files', [__FILE__]);
         $this->config->set('extension', 'ziphp');
+        $this->config->set('storage_cycle', ['custom']);
         $this->config->set('storage_filename', '{hash}.{date:N}');
     }
 
@@ -61,6 +62,7 @@ class CreateBackupCommandTest extends TestCase
         $this->assertNotContains('[ERROR]', $output);
         $this->assertContains('[WARN] storage is disabled', $output);
         $this->assertContains('[INFO] end backuplay', $output);
+        $this->unlink($storageFile);
     }
 
     /** @test */
@@ -77,6 +79,7 @@ class CreateBackupCommandTest extends TestCase
         $this->assertTrue(file_exists($storageFile));
         $this->assertNotContains('[ERROR]', $output);
         $this->assertContains('[INFO] end backuplay', $output);
+        $this->unlink($storageFile);
     }
 
     /** @test */
@@ -95,5 +98,13 @@ class CreateBackupCommandTest extends TestCase
         $this->assertNotContains('[ERROR]', $output);
         $this->assertContains('[WARN] no valid folders or files to backup', $output);
         $this->assertContains('[INFO] end backuplay', $output);
+        $this->unlink($storageFile);
+    }
+
+    protected function unlink($filepath)
+    {
+        if(file_exists($filepath)) {
+            unlink($filepath);
+        }
     }
 }
