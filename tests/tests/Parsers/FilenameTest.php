@@ -48,11 +48,11 @@ class FilenameTest extends TestCase
             'custom' => 'N',
         ];
 
-        foreach($cycles as $cycle => $date) {
+        foreach ($cycles as $cycle => $date) {
             $filename = (new Filename())->cycleParse($cycle);
-            $hash = md5(__DIR__ . ' ' . __FILE__);
+            $hash = md5(__DIR__.' '.__FILE__);
             $date = date($date);
-            $this->assertEquals($cycle . DIRECTORY_SEPARATOR . $hash . '.' . $date . '.zip', (string)$filename);
+            $this->assertEquals($cycle.DIRECTORY_SEPARATOR.$hash.'.'.$date.'.zip', (string) $filename);
         }
     }
 }

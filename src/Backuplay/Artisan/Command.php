@@ -67,7 +67,7 @@ class Command extends IlluminateCommand
 
     public function unlink($filepath)
     {
-        if(file_exists($filepath)) {
+        if (file_exists($filepath)) {
             try {
                 unlink($filepath);
             } catch (\ErrorException $e) {

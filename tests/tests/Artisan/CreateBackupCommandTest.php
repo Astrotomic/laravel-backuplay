@@ -103,7 +103,7 @@ class CreateBackupCommandTest extends TestCase
 
     protected function unlink($filepath)
     {
-        if(file_exists($filepath)) {
+        if (file_exists($filepath)) {
             unlink($filepath);
         }
     }

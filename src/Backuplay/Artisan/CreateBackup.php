@@ -142,7 +142,7 @@ class CreateBackup extends Command
         if ($disk !== false) {
             $this->comment('store archive on disk: '.$disk);
             $filename = new Filename();
-            foreach($this->config->get('storage_cycle', []) as $cycle) {
+            foreach ($this->config->get('storage_cycle', []) as $cycle) {
                 $filePath = implode(DIRECTORY_SEPARATOR, array_filter([
                     $this->config->get('storage_path'),
                     $filename->cycleParse($cycle),
