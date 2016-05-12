@@ -143,13 +143,14 @@ class CreateBackup extends Command
             $this->comment('store archive on disk: '.$disk);
             $filename = new Filename();
             foreach ($this->config->get('storage_cycle', []) as $cycle) {
+                $this->comment('put '. $cycle . ' archive in storage');
                 $filePath = implode(DIRECTORY_SEPARATOR, array_filter([
                     $this->config->get('storage_path'),
                     $filename->cycleParse($cycle),
                 ]));
                 Storage::disk($disk)->put($filePath, file_get_contents($tempPath));
                 if (Storage::disk($disk)->exists($filePath)) {
-                    $this->info('archive stored');
+                    $this->info($cycle . ' archive stored');
                 } else {
                     throw new FileDoesNotExistException($filePath);
                 }
