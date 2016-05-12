@@ -57,20 +57,20 @@ class Filename implements ParserContract
      */
     public function cycleParse($cycle)
     {
-        switch($cycle) {
-            case "dailyW":
+        switch ($cycle) {
+            case 'dailyW':
                 $filename = $this->parse('{hash}.{date:w}');
                 break;
-            case "dailyM":
+            case 'dailyM':
                 $filename = $this->parse('{hash}.{date:j}');
                 break;
-            case "dailyY":
+            case 'dailyY':
                 $filename = $this->parse('{hash}.{date:z}');
                 break;
-            case "weekly":
+            case 'weekly':
                 $filename = $this->parse('{hash}.{date:W}');
                 break;
-            case "monthly":
+            case 'monthly':
                 $filename = $this->parse('{hash}.{date:n}');
                 break;
             default:
@@ -78,6 +78,7 @@ class Filename implements ParserContract
                 $cycle = 'custom';
                 break;
         }
+
         return $cycle.DIRECTORY_SEPARATOR.$filename;
     }
 
