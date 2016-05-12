@@ -41,8 +41,20 @@ class Filename implements ParserContract
         $filename = $string;
         $unique = uniqid();
         $hash = md5(implode(' ', $this->config->getFolders()).' '.implode(' ', $this->config->getFiles()));
+        $host = gethostname();
 
-        $filename = str_replace(['{unique}', '{hash}'], [$unique, $hash], $filename);
+        $search = [
+            '{unique}',
+            '{hash}',
+            '{host}',
+        ];
+        $replace = [
+            $unique,
+            $hash,
+            $host,
+        ];
+
+        $filename = str_replace($search, $replace, $filename);
         $filename = preg_replace_callback('/\{date:([^\}]*)\}/', function ($hit) {
             return date($hit[1]);
         }, $filename);
