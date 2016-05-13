@@ -65,6 +65,9 @@ class Command extends IlluminateCommand
         parent::comment($string, $verbosity);
     }
 
+    /**
+     * @param string $filepath
+     */
     public function unlink($filepath)
     {
         if (file_exists($filepath)) {
@@ -76,13 +79,20 @@ class Command extends IlluminateCommand
         }
     }
 
+    /**
+     * @param string $level
+     * @return string
+     */
     public function label($level)
     {
         return '['.strtoupper($level).']['.$this->now().'] ';
     }
 
+    /**
+     * @return string
+     */
     public function now()
     {
-        return date('Y-m-d H:i:s.u');
+        return (string) date('Y-m-d H:i:s.u');
     }
 }
