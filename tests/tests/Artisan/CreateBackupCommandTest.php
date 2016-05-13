@@ -60,8 +60,8 @@ class CreateBackupCommandTest extends TestCase
         $storageFile = $this->storagePath.DIRECTORY_SEPARATOR.(new Filename());
         $this->assertFalse(file_exists($storageFile));
         $this->assertNotContains('[ERROR]', $output);
-        $this->assertContains('[WARN] storage is disabled', $output);
-        $this->assertContains('[INFO] end backuplay', $output);
+        $this->assertContains('storage is disabled', $output);
+        $this->assertContains('end backuplay', $output);
         $this->unlink($storageFile);
     }
 
@@ -78,7 +78,7 @@ class CreateBackupCommandTest extends TestCase
         $storageFile = $this->storagePath.DIRECTORY_SEPARATOR.(new Filename());
         $this->assertTrue(file_exists($storageFile));
         $this->assertNotContains('[ERROR]', $output);
-        $this->assertContains('[INFO] end backuplay', $output);
+        $this->assertContains('end backuplay', $output);
         $this->unlink($storageFile);
     }
 
@@ -96,8 +96,8 @@ class CreateBackupCommandTest extends TestCase
         $storageFile = $this->storagePath.DIRECTORY_SEPARATOR.(new Filename());
         $this->assertFalse(file_exists($storageFile));
         $this->assertNotContains('[ERROR]', $output);
-        $this->assertContains('[WARN] no valid folders or files to backup', $output);
-        $this->assertContains('[INFO] end backuplay', $output);
+        $this->assertContains('no valid folders or files to backup', $output);
+        $this->assertContains('end backuplay', $output);
         $this->unlink($storageFile);
     }
 
