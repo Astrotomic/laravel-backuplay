@@ -2,7 +2,6 @@
 
 namespace Gummibeer\Backuplay\Artisan;
 
-use Carbon\Carbon;
 use Gummibeer\Backuplay\Contracts\ConfigContract;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Input\InputOption;
@@ -53,15 +52,15 @@ class ListBackup extends Command
             ];
             $backups = [];
 
-            if(is_null($cycle = $this->option('cycle'))) {
+            if (is_null($cycle = $this->option('cycle'))) {
                 $cycles = $this->getCycles($disk);
             } else {
                 $cycles = [$cycle];
             }
-            if(count($cycles) > 0) {
+            if (count($cycles) > 0) {
                 foreach ($cycles as $cycle) {
                     $archives = $this->getArchivesByCycle($disk, $cycle);
-                    if(count($archives) > 0) {
+                    if (count($archives) > 0) {
                         foreach ($archives as $archive) {
                             $backups[] = $this->getArchiveInfo($disk, $cycle, $archive);
                         }
@@ -69,7 +68,7 @@ class ListBackup extends Command
                 }
             }
 
-            if(count($backups) > 0) {
+            if (count($backups) > 0) {
                 $this->table($headers, $backups);
             } else {
                 $this->warn('no backups found');
@@ -118,6 +117,7 @@ class ListBackup extends Command
     {
         $size = Storage::disk($disk)->size($archive);
         $modified = Storage::disk($disk)->lastModified($archive);
+
         return [
             'storage' => $disk,
             'cycle' => $cycle,
@@ -132,7 +132,8 @@ class ListBackup extends Command
      * @param int $precision
      * @return string
      */
-    protected function formatBytes($bytes, $precision = 2) {
+    protected function formatBytes($bytes, $precision = 2)
+    {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
         $bytes = max(intval($bytes), 0);
@@ -140,6 +141,6 @@ class ListBackup extends Command
         $pow = min($pow, count($units) - 1);
         $bytes /= pow(1024, $pow);
 
-        return round($bytes, $precision) . ' ' . $units[$pow];
+        return round($bytes, $precision).' '.$units[$pow];
     }
 }

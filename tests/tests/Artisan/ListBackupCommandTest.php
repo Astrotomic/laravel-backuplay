@@ -1,9 +1,6 @@
 <?php
 
-use Gummibeer\Backuplay\Parsers\Filename;
-use Gummibeer\Backuplay\Artisan\CreateBackup;
 use Gummibeer\Backuplay\Contracts\ConfigContract;
-use Symfony\Component\Console\Output\BufferedOutput;
 
 class ListBackupCommandTest extends TestCase
 {
@@ -52,5 +49,4 @@ class ListBackupCommandTest extends TestCase
     {
         $this->assertTrue(true);
     }
-
 }
