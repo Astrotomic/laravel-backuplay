@@ -74,6 +74,7 @@ class CreateBackup extends Command
             if (count($this->folders) > 0) {
                 $this->comment('add folders to archive');
                 foreach ($this->folders as $folder) {
+                    $this->comment('add folder: '.$folder);
                     $archive->addMembers($folder, true);
                 }
             }
@@ -81,6 +82,7 @@ class CreateBackup extends Command
             if (count($this->files) > 0) {
                 $this->comment('add files to archive');
                 foreach ($this->files as $file) {
+                    $this->comment('add file: '.$file);
                     $archive->addMembers($file, false);
                 }
             }
