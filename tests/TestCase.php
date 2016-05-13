@@ -33,6 +33,7 @@ abstract class TestCase extends OrchestraTestCase
     protected function runCommand(Command $command, array $input, OutputInterface $output)
     {
         $command->setLaravel($this->app);
+
         return $command->run(new ArrayInput($input), $output);
     }
 
