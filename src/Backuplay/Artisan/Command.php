@@ -61,7 +61,7 @@ class Command extends IlluminateCommand
      */
     public function comment($string, $verbosity = null)
     {
-        $string = $this->label('comment').$string;
+        $string = $this->label('debug').$string;
         parent::comment($string, $verbosity);
     }
 

@@ -52,7 +52,6 @@ class CreateBackupCommandTest extends TestCase
     {
         $this->config->set('disk', false);
         $command = new CreateBackup();
-        $command->setLaravel($this->app);
         $output = new BufferedOutput();
         $this->runCommand($command, [], $output);
         $output = $output->fetch();
@@ -70,7 +69,6 @@ class CreateBackupCommandTest extends TestCase
     {
         $this->config->set('disk', 'testing');
         $command = new CreateBackup();
-        $command->setLaravel($this->app);
         $output = new BufferedOutput();
         $this->runCommand($command, [], $output);
         $output = $output->fetch();
@@ -88,7 +86,6 @@ class CreateBackupCommandTest extends TestCase
         $this->config->set('folders', []);
         $this->config->set('files', []);
         $command = new CreateBackup();
-        $command->setLaravel($this->app);
         $output = new BufferedOutput();
         $this->runCommand($command, [], $output);
         $output = $output->fetch();
@@ -99,12 +96,5 @@ class CreateBackupCommandTest extends TestCase
         $this->assertContains('no valid folders or files to backup', $output);
         $this->assertContains('end backuplay', $output);
         $this->unlink($storageFile);
-    }
-
-    protected function unlink($filepath)
-    {
-        if (file_exists($filepath)) {
-            unlink($filepath);
-        }
     }
 }

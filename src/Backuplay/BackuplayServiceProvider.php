@@ -3,6 +3,7 @@
 namespace Gummibeer\Backuplay;
 
 use Gummibeer\Backuplay\Artisan\CreateBackup;
+use Gummibeer\Backuplay\Artisan\ListBackup;
 use Gummibeer\Backuplay\Contracts\ConfigContract;
 use Gummibeer\Backuplay\Repositories\Config;
 use Illuminate\Support\ServiceProvider;
@@ -47,9 +48,13 @@ class BackuplayServiceProvider extends ServiceProvider
         $this->app->singleton('backuplay.artisan.backup-create', function () {
             return new CreateBackup();
         });
+        $this->app->singleton('backuplay.artisan.backup-list', function () {
+            return new ListBackup();
+        });
 
         $this->commands([
             'backuplay.artisan.backup-create',
+            'backuplay.artisan.backup-list',
         ]);
     }
 
