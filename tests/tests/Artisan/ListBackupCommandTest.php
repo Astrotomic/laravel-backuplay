@@ -1,6 +1,10 @@
 <?php
 
+use Gummibeer\Backuplay\Parsers\Filename;
+use Gummibeer\Backuplay\Artisan\CreateBackup;
+use Gummibeer\Backuplay\Artisan\ListBackup;
 use Gummibeer\Backuplay\Contracts\ConfigContract;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class ListBackupCommandTest extends TestCase
 {
@@ -45,8 +49,101 @@ class ListBackupCommandTest extends TestCase
     }
 
     /** @test */
-    public function disabled()
+    public function listBackupWithoutStorage()
     {
-        $this->assertTrue(true);
+        $this->config->set('disk', false);
+        $command = new ListBackup();
+        $output = new BufferedOutput();
+        $this->runCommand($command, [], $output);
+        $output = $output->fetch();
+
+        $this->assertNotContains('[ERROR]', $output);
+        $this->assertContains('storage is disabled', $output);
+        $this->assertContains('end backuplay', $output);
+    }
+
+    /** @test */
+    public function listBackupWithStorage()
+    {
+        $this->config->set('disk', 'testing');
+        $command = new CreateBackup();
+        $output = new BufferedOutput();
+        $this->runCommand($command, [], $output);
+
+        $filename = new Filename();
+        $storageFile = $this->storagePath.DIRECTORY_SEPARATOR.$filename;
+        $this->assertTrue(file_exists($storageFile));
+
+        $command = new ListBackup();
+        $output = new BufferedOutput();
+        $this->runCommand($command, [], $output);
+        $output = $output->fetch();
+        $this->assertNotContains('[ERROR]', $output);
+        $this->assertContains('list archives on disk: testing', $output);
+        $this->assertContains(basename($filename), $output);
+        $this->assertContains('end backuplay', $output);
+
+        $this->unlink($storageFile);
+    }
+
+    /** @test */
+    public function listBackupWithEmptyStorage()
+    {
+        $command = new ListBackup();
+        $output = new BufferedOutput();
+        $this->runCommand($command, [], $output);
+        $output = $output->fetch();
+        $this->assertNotContains('[ERROR]', $output);
+        $this->assertContains('list archives on disk: testing', $output);
+        $this->assertContains('no backups found', $output);
+        $this->assertContains('end backuplay', $output);
+    }
+
+    /** @test */
+    public function listBackupWithStorageForCycle()
+    {
+        $this->config->set('disk', 'testing');
+        $command = new CreateBackup();
+        $output = new BufferedOutput();
+        $this->runCommand($command, [], $output);
+
+        $filename = new Filename();
+        $storageFile = $this->storagePath.DIRECTORY_SEPARATOR.$filename;
+        $this->assertTrue(file_exists($storageFile));
+
+        $command = new ListBackup();
+        $output = new BufferedOutput();
+        $this->runCommand($command, ['--cycle' => 'custom'], $output);
+        $output = $output->fetch();
+        $this->assertNotContains('[ERROR]', $output);
+        $this->assertContains('list archives on disk: testing', $output);
+        $this->assertContains(basename($filename), $output);
+        $this->assertContains('end backuplay', $output);
+
+        $this->unlink($storageFile);
+    }
+
+    /** @test */
+    public function listBackupWithStorageForEmptyCycle()
+    {
+        $this->config->set('disk', 'testing');
+        $command = new CreateBackup();
+        $output = new BufferedOutput();
+        $this->runCommand($command, [], $output);
+
+        $filename = new Filename();
+        $storageFile = $this->storagePath.DIRECTORY_SEPARATOR.$filename;
+        $this->assertTrue(file_exists($storageFile));
+
+        $command = new ListBackup();
+        $output = new BufferedOutput();
+        $this->runCommand($command, ['--cycle' => 'dailyW'], $output);
+        $output = $output->fetch();
+        $this->assertNotContains('[ERROR]', $output);
+        $this->assertContains('list archives on disk: testing', $output);
+        $this->assertContains('no backups found', $output);
+        $this->assertContains('end backuplay', $output);
+
+        $this->unlink($storageFile);
     }
 }

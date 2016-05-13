@@ -39,6 +39,8 @@ class ListBackup extends Command
      */
     public function fire()
     {
+        $this->info('start backuplay');
+
         $disk = $this->config->get('disk');
         if ($disk !== false) {
             $this->comment('list archives on disk: '.$disk);
@@ -76,6 +78,8 @@ class ListBackup extends Command
         } else {
             $this->warn('storage is disabled');
         }
+
+        $this->info('end backuplay');
     }
 
     /**
@@ -121,7 +125,7 @@ class ListBackup extends Command
         return [
             'storage' => $disk,
             'cycle' => $cycle,
-            'archive' => str_replace($cycle.DIRECTORY_SEPARATOR, '', $archive),
+            'archive' => basename($archive),
             'size' => $this->formatBytes($size),
             'modified' => date('Y-m-d H:i:s T', $modified),
         ];
