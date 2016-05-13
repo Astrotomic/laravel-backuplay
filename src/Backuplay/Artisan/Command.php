@@ -18,7 +18,7 @@ class Command extends IlluminateCommand
      */
     public function error($string, $verbosity = null)
     {
-        $string = '[ERROR] '.$string;
+        $string = $this->label('error').$string;
         parent::error($string, $verbosity);
     }
 
@@ -31,7 +31,7 @@ class Command extends IlluminateCommand
      */
     public function warn($string, $verbosity = null)
     {
-        $string = '[WARN] '.$string;
+        $string = $this->label('warn').$string;
         if (is_callable('parent::warn')) {
             parent::warn($string, $verbosity);
         } else {
@@ -48,7 +48,7 @@ class Command extends IlluminateCommand
      */
     public function info($string, $verbosity = null)
     {
-        $string = '[INFO] '.$string;
+        $string = $this->label('info').$string;
         parent::info($string, $verbosity);
     }
 
@@ -61,7 +61,7 @@ class Command extends IlluminateCommand
      */
     public function comment($string, $verbosity = null)
     {
-        $string = '[DEBUG] '.$string;
+        $string = $this->label('comment').$string;
         parent::comment($string, $verbosity);
     }
 
@@ -74,5 +74,15 @@ class Command extends IlluminateCommand
                 $this->warn('file isn\'t deletable');
             }
         }
+    }
+
+    public function label($level)
+    {
+        return '['.strtoupper($level).']['.$this->now().'] ';
+    }
+
+    public function now()
+    {
+        return date('Y-m-d H:i:s.u');
     }
 }
