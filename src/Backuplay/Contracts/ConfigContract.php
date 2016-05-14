@@ -18,7 +18,7 @@ interface ConfigContract
      * @param bool|null $strict
      * @return bool
      */
-    public function getStrict($strict = null);
+    public function isStrict($strict = null);
 
     /**
      * @return string

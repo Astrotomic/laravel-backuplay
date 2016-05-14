@@ -14,10 +14,9 @@ class Handler
      */
     public static function handle(\Exception $exception, $strict = null)
     {
-        if (app(ConfigContract::class)->getStrict($strict)) {
+        if (app(ConfigContract::class)->isStrict($strict)) {
             throw $exception;
-        } else {
-            return $exception;
         }
+        return $exception;
     }
 }

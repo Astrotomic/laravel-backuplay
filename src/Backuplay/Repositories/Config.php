@@ -65,7 +65,7 @@ class Config extends Repository implements ConfigContract
      * @param bool|null $strict
      * @return bool
      */
-    public function getStrict($strict = null)
+    public function isStrict($strict = null)
     {
         if (is_null($strict)) {
             $strict = $this->get('strict');

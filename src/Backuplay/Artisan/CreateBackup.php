@@ -60,10 +60,10 @@ class CreateBackup extends Command
         $this->files = $this->config->getFiles();
         $this->comment('backup files: '.implode(' ', $this->files));
 
-        if (count($this->folders) > 0 || count($this->files) > 0) {
+        if ($this->isValidBackup()) {
             $tempDir = $this->config->getTempDir();
-            $tempName = md5(uniqid(date('U'))).'.'.$this->config->get('extension');
-            $tempPath = $tempDir.DIRECTORY_SEPARATOR.$tempName;
+            $tempName = md5(uniqid(date('U'))) . '.' . $this->config->get('extension');
+            $tempPath = $tempDir . DIRECTORY_SEPARATOR . $tempName;
             $tempMeta = $this->createMetaFile($tempPath);
             $zippy = Archive::load();
             $archive = $zippy->create($tempPath, [
@@ -74,7 +74,7 @@ class CreateBackup extends Command
             if (count($this->folders) > 0) {
                 $this->comment('add folders to archive');
                 foreach ($this->folders as $folder) {
-                    $this->comment('add folder: '.$folder);
+                    $this->comment('add folder: ' . $folder);
                     $archive->addMembers($folder, true);
                 }
             }
@@ -82,7 +82,7 @@ class CreateBackup extends Command
             if (count($this->files) > 0) {
                 $this->comment('add files to archive');
                 foreach ($this->files as $file) {
-                    $this->comment('add file: '.$file);
+                    $this->comment('add file: ' . $file);
                     $archive->addMembers($file, false);
                 }
             }
@@ -91,8 +91,6 @@ class CreateBackup extends Command
             File::isFile($tempPath, true);
             $this->info('created archive');
             $this->storeArchive($tempPath);
-        } else {
-            $this->warn('no valid folders or files to backup');
         }
 
         $this->info('end backuplay');
@@ -135,31 +133,59 @@ class CreateBackup extends Command
 
     /**
      * @param string $tempPath
-     * @return void
+     * @return bool
      * @throws \Gummibeer\Backuplay\Exceptions\FileDoesNotExistException
      */
     protected function storeArchive($tempPath)
     {
         $disk = $this->config->get('disk');
-        if ($disk !== false) {
-            $this->comment('store archive on disk: '.$disk);
-            $filename = new Filename();
-            foreach ($this->config->get('storage_cycle', []) as $cycle) {
-                $this->comment('put '.$cycle.' archive in storage');
-                $filePath = implode(DIRECTORY_SEPARATOR, array_filter([
-                    $this->config->get('storage_path'),
-                    $filename->cycleParse($cycle),
-                ]));
-                Storage::disk($disk)->put($filePath, file_get_contents($tempPath));
-                if (Storage::disk($disk)->exists($filePath)) {
-                    $this->info($cycle.' archive stored');
-                } else {
-                    throw new FileDoesNotExistException($filePath);
-                }
-            }
-        } else {
+        if ($disk === false) {
             $this->warn('storage is disabled');
+            return false;
+        }
+        $this->comment('store archive on disk: '.$disk);
+        $filename = new Filename();
+        foreach ($this->config->get('storage_cycle', []) as $cycle) {
+            $this->comment('put '.$cycle.' archive in storage');
+            $filePath = implode(DIRECTORY_SEPARATOR, array_filter([
+                $this->config->get('storage_path'),
+                $filename->cycleParse($cycle),
+            ]));
+            Storage::disk($disk)->put($filePath, file_get_contents($tempPath));
+            if (!Storage::disk($disk)->exists($filePath)) {
+                throw new FileDoesNotExistException($filePath);
+            }
+            $this->info($cycle.' archive stored');
         }
         $this->unlink($tempPath);
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function hasFolders()
+    {
+        return (bool) (count($this->folders) > 0);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function hasFiles()
+    {
+        return (bool) (count($this->files) > 0);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isValidBackup()
+    {
+        $valid = (bool) ($this->hasFolders() || $this->hasFiles());
+        if(!$valid) {
+            $this->warn('no valid folders or files to backup');
+        }
+        return $valid;
     }
 }
