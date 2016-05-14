@@ -7,17 +7,17 @@ use Gummibeer\Backuplay\Contracts\ConfigContract;
 class Handler
 {
     /**
-     * @param \Exception $e
+     * @param \Exception $exception
      * @param bool|null $strict
      * @throws \Exception
      * @return \Exception
      */
-    public static function handle(\Exception $e, $strict = null)
+    public static function handle(\Exception $exception, $strict = null)
     {
         if (app(ConfigContract::class)->getStrict($strict)) {
-            throw $e;
+            throw $exception;
         } else {
-            return $e;
+            return $exception;
         }
     }
 }

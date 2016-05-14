@@ -73,7 +73,7 @@ class Command extends IlluminateCommand
         if (file_exists($filepath)) {
             try {
                 unlink($filepath);
-            } catch (\ErrorException $e) {
+            } catch (\ErrorException $exception) {
                 $this->warn('file isn\'t deletable');
             }
         }
