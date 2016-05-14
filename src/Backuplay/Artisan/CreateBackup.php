@@ -62,8 +62,8 @@ class CreateBackup extends Command
 
         if ($this->isValidBackup()) {
             $tempDir = $this->config->getTempDir();
-            $tempName = md5(uniqid(date('U'))) . '.' . $this->config->get('extension');
-            $tempPath = $tempDir . DIRECTORY_SEPARATOR . $tempName;
+            $tempName = md5(uniqid(date('U'))).'.'.$this->config->get('extension');
+            $tempPath = $tempDir.DIRECTORY_SEPARATOR.$tempName;
             $tempMeta = $this->createMetaFile($tempPath);
             $zippy = Archive::load();
             $archive = $zippy->create($tempPath, [
@@ -74,7 +74,7 @@ class CreateBackup extends Command
             if (count($this->folders) > 0) {
                 $this->comment('add folders to archive');
                 foreach ($this->folders as $folder) {
-                    $this->comment('add folder: ' . $folder);
+                    $this->comment('add folder: '.$folder);
                     $archive->addMembers($folder, true);
                 }
             }
@@ -82,7 +82,7 @@ class CreateBackup extends Command
             if (count($this->files) > 0) {
                 $this->comment('add files to archive');
                 foreach ($this->files as $file) {
-                    $this->comment('add file: ' . $file);
+                    $this->comment('add file: '.$file);
                     $archive->addMembers($file, false);
                 }
             }
@@ -141,6 +141,7 @@ class CreateBackup extends Command
         $disk = $this->config->get('disk');
         if ($disk === false) {
             $this->warn('storage is disabled');
+
             return false;
         }
         $this->comment('store archive on disk: '.$disk);
@@ -152,12 +153,13 @@ class CreateBackup extends Command
                 $filename->cycleParse($cycle),
             ]));
             Storage::disk($disk)->put($filePath, file_get_contents($tempPath));
-            if (!Storage::disk($disk)->exists($filePath)) {
+            if (! Storage::disk($disk)->exists($filePath)) {
                 throw new FileDoesNotExistException($filePath);
             }
             $this->info($cycle.' archive stored');
         }
         $this->unlink($tempPath);
+
         return true;
     }
 
@@ -183,9 +185,10 @@ class CreateBackup extends Command
     protected function isValidBackup()
     {
         $valid = (bool) ($this->hasFolders() || $this->hasFiles());
-        if(!$valid) {
+        if (! $valid) {
             $this->warn('no valid folders or files to backup');
         }
+
         return $valid;
     }
 }

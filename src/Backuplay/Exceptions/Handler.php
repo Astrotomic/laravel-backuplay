@@ -17,6 +17,7 @@ class Handler
         if (app(ConfigContract::class)->isStrict($strict)) {
             throw $exception;
         }
+
         return $exception;
     }
 }
