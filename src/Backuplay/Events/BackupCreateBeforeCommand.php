@@ -3,11 +3,9 @@
 namespace Gummibeer\Backuplay\Events;
 
 use Gummibeer\Backuplay\Artisan\CreateBackup;
-use Illuminate\Queue\SerializesModels;
 
 class BackupCreateBeforeCommand extends Event
 {
-
     /**
      * @var \Gummibeer\Backuplay\Artisan\CreateBackup
      */

@@ -3,12 +3,10 @@
 namespace Gummibeer\Backuplay\Events;
 
 use Gummibeer\Backuplay\Artisan\CreateBackup;
-use Illuminate\Queue\SerializesModels;
 use Symfony\Component\Process\Process;
 
 class BackupCreateFailedScript extends Event
 {
-
     /**
      * @var \Gummibeer\Backuplay\Artisan\CreateBackup
      */
