@@ -85,4 +85,46 @@ class ConfigTest extends TestCase
         $this->assertCount(1, $config->getFiles());
         $this->assertArrayHasKey(2, $config->getFiles());
     }
+
+    /** @test */
+    public function getTempDirShouldReturnPath()
+    {
+        $config = app(ConfigContract::class);
+        $config->set('temp_path.dir', realpath(implode(DIRECTORY_SEPARATOR, [
+            __DIR__,
+            '..',
+            '..',
+            'storage',
+            'temp',
+        ])));
+        $this->assertStringEndsWith('temp', $config->getTempDir());
+        $this->assertTrue(file_exists($config->getTempDir()));
+    }
+
+    /** @test */
+    public function getTempDirShouldCreateAndReturnPath()
+    {
+        $config = app(ConfigContract::class);
+        $config->set('temp_path.dir', implode(DIRECTORY_SEPARATOR, [
+            __DIR__,
+            '..',
+            '..',
+            'storage',
+            'temp',
+            'not',
+            'existing',
+            'path',
+        ]));
+        $this->assertStringEndsWith('path', $config->getTempDir());
+        $this->assertTrue(file_exists($config->getTempDir()));
+    }
+
+    /** @test */
+    public function getTempDirShouldFailWithExistingFile()
+    {
+        $config = app(ConfigContract::class);
+        $config->set('temp_path.dir', __FILE__);
+        $this->setExpectedException(\Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException::class);
+        $config->getTempDir();
+    }
 }
