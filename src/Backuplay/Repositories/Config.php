@@ -86,7 +86,7 @@ class Config extends Repository implements ConfigContract
         if (! (File::isDir($dir, false) === true ? true : false)) {
             try {
                 $success = mkdir($dir, $chmod, true);
-            } catch(\ErrorException $exception) {
+            } catch (\ErrorException $exception) {
                 $success = false;
             }
             if (! $success) {
