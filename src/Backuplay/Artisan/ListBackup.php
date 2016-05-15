@@ -69,11 +69,10 @@ class ListBackup extends Command
                 }
             }
 
-            if (count($backups) > 0) {
-                $this->table($headers, $backups);
-            } else {
+            if (count($backups) == 0) {
                 $this->warn('no backups found');
             }
+            $this->table($headers, $backups);
         } else {
             $this->warn('storage is disabled');
         }
