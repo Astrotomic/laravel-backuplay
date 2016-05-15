@@ -22,6 +22,7 @@ class File
         if (file_exists($file)) {
             return true;
         }
+
         return ExceptionHandler::handle(new FileDoesNotExistException($file), $strict);
     }
 
@@ -36,6 +37,7 @@ class File
         if (is_dir($dir)) {
             return true;
         }
+
         return ExceptionHandler::handle(new EntityIsNoDirectoryException($dir), $strict);
     }
 
@@ -50,6 +52,7 @@ class File
         if (is_file($file)) {
             return true;
         }
+
         return ExceptionHandler::handle(new EntityIsNoFileException($file), $strict);
     }
 
@@ -64,6 +67,7 @@ class File
         if (is_readable($file)) {
             return true;
         }
+
         return ExceptionHandler::handle(new FileIsntReadableException($file), $strict);
     }
 
@@ -78,6 +82,7 @@ class File
         if (is_writable($file)) {
             return true;
         }
+
         return ExceptionHandler::handle(new FileIsntWritableException($file), $strict);
     }
 }
