@@ -20,7 +20,7 @@
     "php": ">=5.5.0",
     "illuminate/support": "~5.0",
     "illuminate/config": "~5.0",
-    "symfony/process": "^3.0",
+    "symfony/process": ">=2.0",
     "alchemy/zippy": "^0.3.5"
   },
   "require-dev": {
