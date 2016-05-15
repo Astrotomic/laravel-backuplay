@@ -240,6 +240,7 @@ class CreateBackup extends Command
         }
 
         Event::fire(new BackupCreateAfterScripts($this, $key, $scripts, $success));
+
         return $success;
     }
 
@@ -253,14 +254,14 @@ class CreateBackup extends Command
         $process = new Process($script);
         $process->run();
         if (! $process->isSuccessful()) {
-        Event::fire(new BackupCreateFailedScript($this, $script, $process));
-        if ($this->config->isStrict()) {
-            throw new ProcessFailedException($process);
-        }
-        $this->error('script failed: '.$script);
+            Event::fire(new BackupCreateFailedScript($this, $script, $process));
+            if ($this->config->isStrict()) {
+                throw new ProcessFailedException($process);
+            }
+            $this->error('script failed: '.$script);
 
-        return false;
-    }
+            return false;
+        }
         $this->comment($process->getOutput());
 
         return true;
