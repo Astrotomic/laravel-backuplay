@@ -55,7 +55,7 @@ class ListBackup extends Command
             $backups = [];
 
             $cycles = $this->getCycles($disk);
-            if (! is_null($cycle = $this->option('cycle')) && in_array($cycle, $cycles)) {
+            if (! is_null($cycle = $this->option('cycle'))) {
                 $cycles = [$cycle];
             }
             if (count($cycles) > 0) {
