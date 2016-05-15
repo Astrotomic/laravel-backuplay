@@ -98,4 +98,13 @@ class Config extends Repository implements ConfigContract
 
         return rtrim($dir, DIRECTORY_SEPARATOR);
     }
+
+    /**
+     * @param string $key
+     * @return array
+     */
+    public function getScripts($key)
+    {
+        return $this->get('scripts.'.$key, []);
+    }
 }

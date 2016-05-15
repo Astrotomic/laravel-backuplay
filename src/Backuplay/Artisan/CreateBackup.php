@@ -191,20 +191,7 @@ class CreateBackup extends Command
      */
     protected function runBeforeScripts()
     {
-        $scripts = $this->config->get('scripts.before', []);
-        if (count($scripts) == 0) {
-            $this->info('no scripts.before found');
-
-            return true;
-        }
-
-        $success = true;
-        foreach ($scripts as $script) {
-            $this->info('script.before run: '.$script);
-            $success = $this->runScript($script) ? $success : false;
-        }
-
-        return $success;
+        return $this->runScripts('before');
     }
 
     /**
@@ -213,16 +200,25 @@ class CreateBackup extends Command
      */
     protected function runAfterScripts()
     {
-        $scripts = $this->config->get('scripts.after', []);
-        if (count($scripts) == 0) {
-            $this->info('no scripts.after found');
+        return $this->runScripts('after');
+    }
 
+    /**
+     * @param string $key
+     * @return bool
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     */
+    protected function runScripts($key)
+    {
+        $scripts = $this->config->getScripts($key);
+        if (count($scripts) == 0) {
+            $this->info("no scripts.{$key} found");
             return true;
         }
 
         $success = true;
         foreach ($scripts as $script) {
-            $this->info('script.after run: '.$script);
+            $this->info("script.{$key} run: {$script}");
             $success = $this->runScript($script) ? $success : false;
         }
 

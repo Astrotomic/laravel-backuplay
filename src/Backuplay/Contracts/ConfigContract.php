@@ -25,4 +25,10 @@ interface ConfigContract
      * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException
      */
     public function getTempDir();
+
+    /**
+     * @param string $key
+     * @return array
+     */
+    public function getScripts($key);
 }
