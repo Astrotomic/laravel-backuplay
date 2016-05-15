@@ -117,6 +117,7 @@ class ConfigTest extends TestCase
         ]));
         $this->assertStringEndsWith('path', $config->getTempDir());
         $this->assertTrue(file_exists($config->getTempDir()));
+        $this->unlink($config->getTempDir());
     }
 
     /** @test */

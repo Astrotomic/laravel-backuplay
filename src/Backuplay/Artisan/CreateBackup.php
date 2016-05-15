@@ -2,12 +2,13 @@
 
 namespace Gummibeer\Backuplay\Artisan;
 
-use Gummibeer\Backuplay\Contracts\ConfigContract;
 use Gummibeer\Backuplay\Exceptions\FileDoesNotExistException;
 use Gummibeer\Backuplay\Helpers\Archive;
 use Gummibeer\Backuplay\Helpers\File;
 use Gummibeer\Backuplay\Parsers\Filename;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 /**
  * Class CreateBackup.
@@ -24,10 +25,6 @@ class CreateBackup extends Command
     protected $description = 'Create and store a new backup';
 
     /**
-     * @var \Gummibeer\Backuplay\Contracts\ConfigContract
-     */
-    protected $config;
-    /**
      * @var array
      */
     protected $folders;
@@ -37,19 +34,11 @@ class CreateBackup extends Command
     protected $files;
 
     /**
-     * CreateBackup constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->config = app(ConfigContract::class);
-    }
-
-    /**
      * @return void
      * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException
      * @throws \Gummibeer\Backuplay\Exceptions\FileDoesNotExistException
      * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoFileException
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
      */
     public function fire()
     {
@@ -61,6 +50,8 @@ class CreateBackup extends Command
         $this->comment('backup files: '.implode(' ', $this->files));
 
         if ($this->isValidBackup()) {
+            $this->runBeforeScripts();
+
             $tempDir = $this->config->getTempDir();
             $tempName = md5(uniqid(date('U'))).'.'.$this->config->get('extension');
             $tempPath = $tempDir.DIRECTORY_SEPARATOR.$tempName;
@@ -91,6 +82,8 @@ class CreateBackup extends Command
             File::isFile($tempPath, true);
             $this->info('created archive');
             $this->storeArchive($tempPath);
+
+            $this->runAfterScripts();
         }
 
         $this->info('end backuplay');
@@ -190,5 +183,65 @@ class CreateBackup extends Command
         }
 
         return $valid;
+    }
+
+    /**
+     * @return bool
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     */
+    protected function runBeforeScripts()
+    {
+        $scripts = $this->config->get('scripts.before', []);
+        if(count($scripts) == 0) {
+            $this->info('no scripts.before found');
+            return true;
+        }
+
+        $success = true;
+        foreach($scripts as $script) {
+            $this->info('script.before run: '.$script);
+            $success = $this->runScript($script) ? $success : false;
+        }
+        return $success;
+    }
+
+    /**
+     * @return bool
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     */
+    protected function runAfterScripts()
+    {
+        $scripts = $this->config->get('scripts.after', []);
+        if(count($scripts) == 0) {
+            $this->info('no scripts.after found');
+            return true;
+        }
+
+        $success = true;
+        foreach($scripts as $script) {
+            $this->info('script.after run: '.$script);
+            $success = $this->runScript($script) ? $success : false;
+        }
+        return $success;
+    }
+
+    /**
+     * @param string $script
+     * @return bool
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     */
+    protected function runScript($script)
+    {
+        $process = new Process($script);
+        $process->run();
+        if(!$process->isSuccessful()) {
+            if($this->config->isStrict()) {
+                throw new ProcessFailedException($process);
+            }
+            $this->error('script failed: '.$script);
+            return false;
+        }
+        $this->comment($process->getOutput());
+        return true;
     }
 }

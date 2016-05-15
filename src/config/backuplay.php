@@ -119,4 +119,32 @@ return [
         'dir' => storage_path('tmp/archives'),
         'chmod' => 0777,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Scripts
+    |--------------------------------------------------------------------------
+    |
+    | Scripts that should be called before or after the create backup.
+    | For example `automysqlbackup` or things like this.
+    |
+    */
+    'scripts' => [
+        'before' => [
+            'dir',
+        ],
+        'after' => [
+            
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Log
+    |--------------------------------------------------------------------------
+    |
+    | Log everything with monolog: `\Log::***($message)`
+    |
+    */
+    'log' => true,
 ];

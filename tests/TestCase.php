@@ -40,7 +40,10 @@ abstract class TestCase extends OrchestraTestCase
     protected function unlink($filepath)
     {
         if (file_exists($filepath)) {
-            unlink($filepath);
+            try {
+                unlink($filepath);
+            } catch (\ErrorException $exception) {
+            }
         }
     }
 }
