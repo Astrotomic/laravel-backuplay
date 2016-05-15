@@ -2,10 +2,19 @@
 
 namespace Gummibeer\Backuplay\Artisan;
 
+use Gummibeer\Backuplay\Events\BackupCreateAfterCommand;
+use Gummibeer\Backuplay\Events\BackupCreateAfterScripts;
+use Gummibeer\Backuplay\Events\BackupCreateAfterStore;
+use Gummibeer\Backuplay\Events\BackupCreateBeforeCommand;
+use Gummibeer\Backuplay\Events\BackupCreateBeforeScripts;
+use Gummibeer\Backuplay\Events\BackupCreateBeforeStore;
+use Gummibeer\Backuplay\Events\BackupCreateFailedScript;
+use Gummibeer\Backuplay\Events\BackupCreateFailedStore;
 use Gummibeer\Backuplay\Exceptions\FileDoesNotExistException;
 use Gummibeer\Backuplay\Helpers\Archive;
 use Gummibeer\Backuplay\Helpers\File;
 use Gummibeer\Backuplay\Parsers\Filename;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -43,6 +52,7 @@ class CreateBackup extends Command
     public function fire()
     {
         $this->info('start backuplay');
+        Event::fire(new BackupCreateBeforeCommand($this));
 
         $this->folders = $this->config->getFolders();
         $this->comment('backup folders: '.implode(' ', $this->folders));
@@ -86,6 +96,7 @@ class CreateBackup extends Command
             $this->runAfterScripts();
         }
 
+        Event::fire(new BackupCreateAfterCommand($this));
         $this->info('end backuplay');
     }
 
@@ -145,11 +156,15 @@ class CreateBackup extends Command
                 $this->config->get('storage_path'),
                 $filename->cycleParse($cycle),
             ]));
-            Storage::disk($disk)->put($filePath, file_get_contents($tempPath));
+            $content = file_get_contents($tempPath);
+            Event::fire(new BackupCreateBeforeStore($this, $cycle, $filePath, $content));
+            Storage::disk($disk)->put($filePath, $content);
             if (! Storage::disk($disk)->exists($filePath)) {
+                Event::fire(new BackupCreateFailedStore($this, $cycle, $filePath, $content));
                 throw new FileDoesNotExistException($filePath);
             }
             $this->info($cycle.' archive stored');
+            Event::fire(new BackupCreateAfterStore($this, $cycle, $filePath, $content));
         }
         $this->unlink($tempPath);
 
@@ -211,6 +226,7 @@ class CreateBackup extends Command
     protected function runScripts($key)
     {
         $scripts = $this->config->getScripts($key);
+        Event::fire(new BackupCreateBeforeScripts($this, $key, $scripts));
         if (count($scripts) == 0) {
             $this->info("no scripts.{$key} found");
 
@@ -223,6 +239,7 @@ class CreateBackup extends Command
             $success = $this->runScript($script) ? $success : false;
         }
 
+        Event::fire(new BackupCreateAfterScripts($this, $key, $scripts, $success));
         return $success;
     }
 
@@ -236,13 +253,14 @@ class CreateBackup extends Command
         $process = new Process($script);
         $process->run();
         if (! $process->isSuccessful()) {
-            if ($this->config->isStrict()) {
-                throw new ProcessFailedException($process);
-            }
-            $this->error('script failed: '.$script);
-
-            return false;
+        Event::fire(new BackupCreateFailedScript($this, $script, $process));
+        if ($this->config->isStrict()) {
+            throw new ProcessFailedException($process);
         }
+        $this->error('script failed: '.$script);
+
+        return false;
+    }
         $this->comment($process->getOutput());
 
         return true;
