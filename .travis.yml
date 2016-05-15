@@ -43,3 +43,8 @@ script:
 ## Send Build Notifications to Slack
 notifications:
   slack: gummibeer:7LQFrbHQqjl98ZvbD9nV8zHN
+
+## Addons used by this package
+addons:
+    code_climate:
+        repo_token: ${CC_TOKEN}

@@ -20,7 +20,8 @@
     "php": ">=5.5.0",
     "illuminate/support": "~5.0",
     "illuminate/config": "~5.0",
-    "alchemy/zippy": "^0.3.5"
+    "alchemy/zippy": "^0.3.5",
+    "codeclimate/php-test-reporter": "^0.3.2"
   },
   "require-dev": {
     "ext-zip": "*",
