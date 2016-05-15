@@ -131,8 +131,8 @@ class Command extends IlluminateCommand
     public function log($level, $string)
     {
         $this->log[$level][] = $string;
-        if($this->config->get('log')) {
-            if(method_exists(Log::class, $level)) {
+        if ($this->config->get('log')) {
+            if (method_exists(Log::class, $level)) {
                 call_user_func([Log::class, $level], [$string]);
             }
         }

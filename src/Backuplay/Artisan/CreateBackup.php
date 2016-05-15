@@ -192,16 +192,18 @@ class CreateBackup extends Command
     protected function runBeforeScripts()
     {
         $scripts = $this->config->get('scripts.before', []);
-        if(count($scripts) == 0) {
+        if (count($scripts) == 0) {
             $this->info('no scripts.before found');
+
             return true;
         }
 
         $success = true;
-        foreach($scripts as $script) {
+        foreach ($scripts as $script) {
             $this->info('script.before run: '.$script);
             $success = $this->runScript($script) ? $success : false;
         }
+
         return $success;
     }
 
@@ -212,16 +214,18 @@ class CreateBackup extends Command
     protected function runAfterScripts()
     {
         $scripts = $this->config->get('scripts.after', []);
-        if(count($scripts) == 0) {
+        if (count($scripts) == 0) {
             $this->info('no scripts.after found');
+
             return true;
         }
 
         $success = true;
-        foreach($scripts as $script) {
+        foreach ($scripts as $script) {
             $this->info('script.after run: '.$script);
             $success = $this->runScript($script) ? $success : false;
         }
+
         return $success;
     }
 
@@ -234,14 +238,16 @@ class CreateBackup extends Command
     {
         $process = new Process($script);
         $process->run();
-        if(!$process->isSuccessful()) {
-            if($this->config->isStrict()) {
+        if (! $process->isSuccessful()) {
+            if ($this->config->isStrict()) {
                 throw new ProcessFailedException($process);
             }
             $this->error('script failed: '.$script);
+
             return false;
         }
         $this->comment($process->getOutput());
+
         return true;
     }
 }
