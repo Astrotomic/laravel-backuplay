@@ -213,6 +213,7 @@ class CreateBackup extends Command
         $scripts = $this->config->getScripts($key);
         if (count($scripts) == 0) {
             $this->info("no scripts.{$key} found");
+
             return true;
         }
 
