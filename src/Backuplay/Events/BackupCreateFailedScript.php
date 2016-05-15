@@ -8,7 +8,6 @@ use Symfony\Component\Process\Process;
 
 class BackupCreateFailedScript extends Event
 {
-    use SerializesModels;
 
     /**
      * @var \Gummibeer\Backuplay\Artisan\CreateBackup

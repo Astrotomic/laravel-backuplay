@@ -7,7 +7,6 @@ use Illuminate\Queue\SerializesModels;
 
 class BackupCreateAfterCommand extends Event
 {
-    use SerializesModels;
 
     /**
      * @var \Gummibeer\Backuplay\Artisan\CreateBackup

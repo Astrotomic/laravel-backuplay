@@ -3,12 +3,9 @@
 namespace Gummibeer\Backuplay\Events;
 
 use Gummibeer\Backuplay\Artisan\CreateBackup;
-use Illuminate\Queue\SerializesModels;
 
 class BackupCreateFailedStore extends Event
 {
-    use SerializesModels;
-
     /**
      * @var \Gummibeer\Backuplay\Artisan\CreateBackup
      */
