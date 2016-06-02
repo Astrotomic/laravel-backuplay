@@ -131,7 +131,7 @@ return [
     */
     'scripts' => [
         'before' => [
-            'dir',
+
         ],
         'after' => [
 
