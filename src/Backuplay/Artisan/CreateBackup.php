@@ -76,7 +76,9 @@ class CreateBackup extends Command
                 $this->comment('add folders to archive');
                 foreach ($this->folders as $folder) {
                     $this->comment('add folder: '.$folder);
-                    $archive->addMembers($folder, true);
+                    $archive->addMembers([
+                        $folder => $folder,
+                    ], true);
                 }
             }
 
