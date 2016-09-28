@@ -1,5 +1,5 @@
 {
-  "name": "gummibeer/backuplay",
+  "name": "astrotomic/backuplay",
   "description": "Package to create backups with Laravel 5",
   "keywords": ["backups", "laravel"],
   "license": "MIT",
