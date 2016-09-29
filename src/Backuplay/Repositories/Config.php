@@ -1,10 +1,10 @@
 <?php
 
-namespace Gummibeer\Backuplay\Repositories;
+namespace Astrotomic\Backuplay\Repositories;
 
-use Gummibeer\Backuplay\Contracts\ConfigContract;
-use Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException;
-use Gummibeer\Backuplay\Helpers\File;
+use Astrotomic\Backuplay\Contracts\ConfigContract;
+use Astrotomic\Backuplay\Exceptions\EntityIsNoDirectoryException;
+use Astrotomic\Backuplay\Helpers\File;
 use Illuminate\Config\Repository;
 use Illuminate\Support\Collection;
 
@@ -76,8 +76,8 @@ class Config extends Repository implements ConfigContract
 
     /**
      * @return string
-     * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException
-     * @throws \Gummibeer\Backuplay\Exceptions\FileIsntWritableException
+     * @throws \Astrotomic\Backuplay\Exceptions\EntityIsNoDirectoryException
+     * @throws \Astrotomic\Backuplay\Exceptions\FileIsntWritableException
      */
     public function getTempDir()
     {

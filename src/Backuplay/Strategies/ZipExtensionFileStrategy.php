@@ -1,6 +1,6 @@
 <?php
 
-namespace Gummibeer\Backuplay\Strategies;
+namespace Astrotomic\Backuplay\Strategies;
 
 use Alchemy\Zippy\Adapter\ZipExtensionAdapter;
 use Alchemy\Zippy\FileStrategy\AbstractFileStrategy;

@@ -1,7 +1,7 @@
 <?php
 
-use Gummibeer\Backuplay\Parsers\Filename;
-use Gummibeer\Backuplay\Contracts\ConfigContract;
+use Astrotomic\Backuplay\Parsers\Filename;
+use Astrotomic\Backuplay\Contracts\ConfigContract;
 
 class FilenameTest extends TestCase
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Gummibeer\Backuplay\Artisan;
+namespace Astrotomic\Backuplay\Artisan;
 
-use Gummibeer\Backuplay\Contracts\ConfigContract;
+use Astrotomic\Backuplay\Contracts\ConfigContract;
 use Illuminate\Console\Command as IlluminateCommand;
 use Illuminate\Support\Facades\Log;
 
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 class Command extends IlluminateCommand
 {
     /**
-     * @var \Gummibeer\Backuplay\Contracts\ConfigContract
+     * @var \Astrotomic\Backuplay\Contracts\ConfigContract
      */
     protected $config;
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gummibeer\Backuplay\Events;
+namespace Astrotomic\Backuplay\Events;
 
 use Illuminate\Queue\SerializesModels;
 

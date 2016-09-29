@@ -1,6 +1,7 @@
 <?php
 
-use Gummibeer\Backuplay\Contracts\ConfigContract;
+use Astrotomic\Backuplay\Contracts\ConfigContract;
+use Astrotomic\Backuplay\Exceptions\EntityIsNoDirectoryException;
 
 class ConfigTest extends TestCase
 {
@@ -125,7 +126,7 @@ class ConfigTest extends TestCase
     {
         $config = app(ConfigContract::class);
         $config->set('temp_path.dir', __FILE__);
-        $this->setExpectedException(\Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException::class);
+        $this->setExpectedException(EntityIsNoDirectoryException::class);
         $config->getTempDir();
     }
 }

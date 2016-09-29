@@ -1,11 +1,11 @@
 <?php
 
-namespace Gummibeer\Backuplay;
+namespace Astrotomic\Backuplay;
 
-use Gummibeer\Backuplay\Artisan\CreateBackup;
-use Gummibeer\Backuplay\Artisan\ListBackup;
-use Gummibeer\Backuplay\Contracts\ConfigContract;
-use Gummibeer\Backuplay\Repositories\Config;
+use Astrotomic\Backuplay\Artisan\CreateBackup;
+use Astrotomic\Backuplay\Artisan\ListBackup;
+use Astrotomic\Backuplay\Contracts\ConfigContract;
+use Astrotomic\Backuplay\Repositories\Config;
 use Illuminate\Support\ServiceProvider;
 
 /**

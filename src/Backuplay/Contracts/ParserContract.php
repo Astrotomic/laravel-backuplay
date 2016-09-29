@@ -1,6 +1,6 @@
 <?php
 
-namespace Gummibeer\Backuplay\Contracts;
+namespace Astrotomic\Backuplay\Contracts;
 
 /**
  * Interface ParserContract.

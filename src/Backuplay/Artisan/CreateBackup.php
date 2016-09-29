@@ -1,19 +1,19 @@
 <?php
 
-namespace Gummibeer\Backuplay\Artisan;
+namespace Astrotomic\Backuplay\Artisan;
 
-use Gummibeer\Backuplay\Events\BackupCreateAfterCommand;
-use Gummibeer\Backuplay\Events\BackupCreateAfterScripts;
-use Gummibeer\Backuplay\Events\BackupCreateAfterStore;
-use Gummibeer\Backuplay\Events\BackupCreateBeforeCommand;
-use Gummibeer\Backuplay\Events\BackupCreateBeforeScripts;
-use Gummibeer\Backuplay\Events\BackupCreateBeforeStore;
-use Gummibeer\Backuplay\Events\BackupCreateFailedScript;
-use Gummibeer\Backuplay\Events\BackupCreateFailedStore;
-use Gummibeer\Backuplay\Exceptions\FileDoesNotExistException;
-use Gummibeer\Backuplay\Helpers\Archive;
-use Gummibeer\Backuplay\Helpers\File;
-use Gummibeer\Backuplay\Parsers\Filename;
+use Astrotomic\Backuplay\Events\BackupCreateAfterCommand;
+use Astrotomic\Backuplay\Events\BackupCreateAfterScripts;
+use Astrotomic\Backuplay\Events\BackupCreateAfterStore;
+use Astrotomic\Backuplay\Events\BackupCreateBeforeCommand;
+use Astrotomic\Backuplay\Events\BackupCreateBeforeScripts;
+use Astrotomic\Backuplay\Events\BackupCreateBeforeStore;
+use Astrotomic\Backuplay\Events\BackupCreateFailedScript;
+use Astrotomic\Backuplay\Events\BackupCreateFailedStore;
+use Astrotomic\Backuplay\Exceptions\FileDoesNotExistException;
+use Astrotomic\Backuplay\Helpers\Archive;
+use Astrotomic\Backuplay\Helpers\File;
+use Astrotomic\Backuplay\Parsers\Filename;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -44,9 +44,9 @@ class CreateBackup extends Command
 
     /**
      * @return void
-     * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException
-     * @throws \Gummibeer\Backuplay\Exceptions\FileDoesNotExistException
-     * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoFileException
+     * @throws \Astrotomic\Backuplay\Exceptions\EntityIsNoDirectoryException
+     * @throws \Astrotomic\Backuplay\Exceptions\FileDoesNotExistException
+     * @throws \Astrotomic\Backuplay\Exceptions\EntityIsNoFileException
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
      */
     public function fire()
@@ -140,7 +140,7 @@ class CreateBackup extends Command
     /**
      * @param string $tempPath
      * @return bool
-     * @throws \Gummibeer\Backuplay\Exceptions\FileDoesNotExistException
+     * @throws \Astrotomic\Backuplay\Exceptions\FileDoesNotExistException
      */
     protected function storeArchive($tempPath)
     {

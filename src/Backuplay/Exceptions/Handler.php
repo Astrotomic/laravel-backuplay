@@ -1,8 +1,8 @@
 <?php
 
-namespace Gummibeer\Backuplay\Exceptions;
+namespace Astrotomic\Backuplay\Exceptions;
 
-use Gummibeer\Backuplay\Contracts\ConfigContract;
+use Astrotomic\Backuplay\Contracts\ConfigContract;
 
 class Handler
 {

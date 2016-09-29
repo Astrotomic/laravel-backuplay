@@ -13,8 +13,8 @@
   ],
   "support": {
     "email": "dev.gummibeer@gmail.com",
-    "issues": "https://github.com/Gummibeer/Backuplay/issues",
-    "source": "https://github.com/Gummibeer/Backuplay"
+    "issues": "https://github.com/Astrotomic/Backuplay/issues",
+    "source": "https://github.com/Astrotomic/Backuplay"
   },
   "require": {
     "php": ">=5.5.0",
@@ -33,7 +33,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Gummibeer\\Backuplay\\": "src/Backuplay"
+      "Astrotomic\\Backuplay\\": "src/Backuplay"
     }
   },
   "autoload-dev": {

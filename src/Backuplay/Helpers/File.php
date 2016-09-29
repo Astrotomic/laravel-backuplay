@@ -1,21 +1,21 @@
 <?php
 
-namespace Gummibeer\Backuplay\Helpers;
+namespace Astrotomic\Backuplay\Helpers;
 
-use Gummibeer\Backuplay\Exceptions\FileDoesNotExistException;
-use Gummibeer\Backuplay\Exceptions\FileIsntReadableException;
-use Gummibeer\Backuplay\Exceptions\FileIsntWritableException;
-use Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException;
-use Gummibeer\Backuplay\Exceptions\EntityIsNoFileException;
-use Gummibeer\Backuplay\Exceptions\Handler as ExceptionHandler;
+use Astrotomic\Backuplay\Exceptions\FileDoesNotExistException;
+use Astrotomic\Backuplay\Exceptions\FileIsntReadableException;
+use Astrotomic\Backuplay\Exceptions\FileIsntWritableException;
+use Astrotomic\Backuplay\Exceptions\EntityIsNoDirectoryException;
+use Astrotomic\Backuplay\Exceptions\EntityIsNoFileException;
+use Astrotomic\Backuplay\Exceptions\Handler as ExceptionHandler;
 
 class File
 {
     /**
      * @param string $file
      * @param bool|null $strict
-     * @return bool|\Gummibeer\Backuplay\Exceptions\FileDoesNotExistException
-     * @throws \Gummibeer\Backuplay\Exceptions\FileDoesNotExistException
+     * @return bool|\Astrotomic\Backuplay\Exceptions\FileDoesNotExistException
+     * @throws \Astrotomic\Backuplay\Exceptions\FileDoesNotExistException
      */
     public static function isExisting($file, $strict = null)
     {
@@ -29,8 +29,8 @@ class File
     /**
      * @param string $dir
      * @param bool|null $strict
-     * @return bool|\Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException
-     * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException
+     * @return bool|\Astrotomic\Backuplay\Exceptions\EntityIsNoDirectoryException
+     * @throws \Astrotomic\Backuplay\Exceptions\EntityIsNoDirectoryException
      */
     public static function isDir($dir, $strict = null)
     {
@@ -44,8 +44,8 @@ class File
     /**
      * @param string $file
      * @param bool|null $strict
-     * @return bool|\Gummibeer\Backuplay\Exceptions\EntityIsNoFileException
-     * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoFileException
+     * @return bool|\Astrotomic\Backuplay\Exceptions\EntityIsNoFileException
+     * @throws \Astrotomic\Backuplay\Exceptions\EntityIsNoFileException
      */
     public static function isFile($file, $strict = null)
     {
@@ -59,8 +59,8 @@ class File
     /**
      * @param string $file
      * @param bool|null $strict
-     * @return bool|\Gummibeer\Backuplay\Exceptions\FileIsntReadableException
-     * @throws \Gummibeer\Backuplay\Exceptions\FileIsntReadableException
+     * @return bool|\Astrotomic\Backuplay\Exceptions\FileIsntReadableException
+     * @throws \Astrotomic\Backuplay\Exceptions\FileIsntReadableException
      */
     public static function isReadable($file, $strict = null)
     {
@@ -74,8 +74,8 @@ class File
     /**
      * @param string $file
      * @param bool|null $strict
-     * @return bool|\Gummibeer\Backuplay\Exceptions\FileIsntWritableException
-     * @throws \Gummibeer\Backuplay\Exceptions\FileIsntWritableException
+     * @return bool|\Astrotomic\Backuplay\Exceptions\FileIsntWritableException
+     * @throws \Astrotomic\Backuplay\Exceptions\FileIsntWritableException
      */
     public static function isWritable($file, $strict = null)
     {

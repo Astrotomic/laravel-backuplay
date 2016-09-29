@@ -1,6 +1,6 @@
 <?php
 
-namespace Gummibeer\Backuplay\Exceptions;
+namespace Astrotomic\Backuplay\Exceptions;
 
 use Exception;
 

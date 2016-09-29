@@ -1,6 +1,6 @@
 <?php
 
-namespace Gummibeer\Backuplay\Contracts;
+namespace Astrotomic\Backuplay\Contracts;
 
 interface ConfigContract
 {
@@ -22,7 +22,7 @@ interface ConfigContract
 
     /**
      * @return string
-     * @throws \Gummibeer\Backuplay\Exceptions\EntityIsNoDirectoryException
+     * @throws \Astrotomic\Backuplay\Exceptions\EntityIsNoDirectoryException
      */
     public function getTempDir();
 

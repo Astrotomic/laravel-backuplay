@@ -1,8 +1,8 @@
 <?php
 
-namespace Gummibeer\Backuplay\Artisan;
+namespace Astrotomic\Backuplay\Artisan;
 
-use Gummibeer\Backuplay\Contracts\ConfigContract;
+use Astrotomic\Backuplay\Contracts\ConfigContract;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -21,7 +21,7 @@ class ListBackup extends Command
     protected $description = 'List all existing backups';
 
     /**
-     * @var \Gummibeer\Backuplay\Contracts\ConfigContract
+     * @var \Astrotomic\Backuplay\Contracts\ConfigContract
      */
     protected $config;
 

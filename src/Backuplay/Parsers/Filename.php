@@ -1,9 +1,9 @@
 <?php
 
-namespace Gummibeer\Backuplay\Parsers;
+namespace Astrotomic\Backuplay\Parsers;
 
-use Gummibeer\Backuplay\Contracts\ConfigContract;
-use Gummibeer\Backuplay\Contracts\ParserContract;
+use Astrotomic\Backuplay\Contracts\ConfigContract;
+use Astrotomic\Backuplay\Contracts\ParserContract;
 
 /**
  * Class FilenameParser.

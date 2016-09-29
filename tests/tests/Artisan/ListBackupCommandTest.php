@@ -1,9 +1,9 @@
 <?php
 
-use Gummibeer\Backuplay\Parsers\Filename;
-use Gummibeer\Backuplay\Artisan\CreateBackup;
-use Gummibeer\Backuplay\Artisan\ListBackup;
-use Gummibeer\Backuplay\Contracts\ConfigContract;
+use Astrotomic\Backuplay\Parsers\Filename;
+use Astrotomic\Backuplay\Artisan\CreateBackup;
+use Astrotomic\Backuplay\Artisan\ListBackup;
+use Astrotomic\Backuplay\Contracts\ConfigContract;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class ListBackupCommandTest extends TestCase

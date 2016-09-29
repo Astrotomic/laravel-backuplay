@@ -1,14 +1,14 @@
 <?php
 
-namespace Gummibeer\Backuplay\Events;
+namespace Astrotomic\Backuplay\Events;
 
-use Gummibeer\Backuplay\Artisan\CreateBackup;
+use Astrotomic\Backuplay\Artisan\CreateBackup;
 use Symfony\Component\Process\Process;
 
 class BackupCreateFailedScript extends Event
 {
     /**
-     * @var \Gummibeer\Backuplay\Artisan\CreateBackup
+     * @var \Astrotomic\Backuplay\Artisan\CreateBackup
      */
     public $command;
     /**

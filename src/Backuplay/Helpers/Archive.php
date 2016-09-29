@@ -1,10 +1,10 @@
 <?php
 
-namespace Gummibeer\Backuplay\Helpers;
+namespace Astrotomic\Backuplay\Helpers;
 
 use Alchemy\Zippy\Adapter\AdapterContainer;
 use Alchemy\Zippy\Zippy;
-use Gummibeer\Backuplay\Strategies\ZipExtensionFileStrategy;
+use Astrotomic\Backuplay\Strategies\ZipExtensionFileStrategy;
 
 /**
  * Class Archive.

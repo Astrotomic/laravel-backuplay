@@ -1,13 +1,13 @@
 <?php
 
-namespace Gummibeer\Backuplay\Events;
+namespace Astrotomic\Backuplay\Events;
 
-use Gummibeer\Backuplay\Artisan\CreateBackup;
+use Astrotomic\Backuplay\Artisan\CreateBackup;
 
 class BackupCreateBeforeScripts extends Event
 {
     /**
-     * @var \Gummibeer\Backuplay\Artisan\CreateBackup
+     * @var \Astrotomic\Backuplay\Artisan\CreateBackup
      */
     public $command;
     /**
